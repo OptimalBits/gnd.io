@@ -1,0 +1,33 @@
+#content-wrapper
+  h1 Introduction
+  .article
+    h2 Variables
+    p Variables allow you to specify widely used values in a single place, and then re-use them throughout the style sheet, making global changes as easy as changing one line of code.
+    pre
+      |  // division-by-zero-test.js
+
+      |  var vows = require('vows'),
+      |  assert = require('assert');
+
+      |  // Create a Test Suite
+      |  vows.describe('Division by Zero').addBatch({
+      |      'when dividing a number by zero': {
+      |          topic: function () { return 42 / 0 },
+
+      |          'we get Infinity': function (topic) {
+      |              assert.equal (topic, Infinity);
+      |          }
+      |      },
+      |      'but when dividing zero by zero': {
+      |          topic: function () { return 0 / 0 },
+
+      |          'we get a value which': {
+      |              'is not a number': function (topic) {
+      |                  assert.isNaN (topic);
+      |              },
+      |              'is not equal to itself': function (topic) {
+      |                  assert.notEqual (topic, topic);
+      |              }
+      |          }
+      |     }
+      |  }).run(); // Run it
