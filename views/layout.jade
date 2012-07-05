@@ -3,17 +3,20 @@ html(lang="en")
     head
       link(href="http://fonts.googleapis.com/css?family=Lato:400,700,900,300italic,400italic,700italic,900italic", rel="stylesheet", type="text/css")
       link(rel="stylesheet", type="text/css", href="css/index.css")
+      link(rel="stylesheet", type="text/css", href="css/zenburn.css")
+      script(src="/js/highlight.pack.js", async="async")
+      script(defer="defer")
+        hljs.initHighlightingOnLoad();
     body
       #container
-        #header-wrapper
+          #github
+                  a(href="#")
+                    .github
+                      span Fork me on Github
           #header
             #title
-              #github
-                a(href="#")
-                  .github
-                    span Fork me on Github
               .leftLine(style="float:left")
-              h1 Ground
+              h1
               .rightLine(style="float:left")
               h2 Modern web application development framework
               p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod nulla vitae lectus rutrum molestie. Pellentesque arcu ipsum, vehicula faucibus gravida vitae, bibendum at tortor. Quisque ut lacus sapien, eget pretium purus.
@@ -49,3 +52,6 @@ html(lang="en")
                 a(href="#") sdfsf
                 .separator
         != body
+        #footer
+          span Copyright © Ground 2010-2012
+
