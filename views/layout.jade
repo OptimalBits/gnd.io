@@ -4,9 +4,15 @@ html(lang="en")
       link(href="http://fonts.googleapis.com/css?family=Lato:400,700,900,300italic,400italic,700italic,900italic", rel="stylesheet", type="text/css")
       link(rel="stylesheet", type="text/css", href="css/index.css")
       link(rel="stylesheet", type="text/css", href="css/zenburn.css")
-      script(src="/js/highlight.pack.js", async="async")
-      script(defer="defer")
+      script(src="/js/highlight.pack.js")
+      script(src="/js/jquery-1.7.1.min.js")
+      script(src="/js/main.js", defer="defer")
         hljs.initHighlightingOnLoad();
+
+        var menus = $('h1','#content-wrapper');
+        $.each(menus,function(i,val){
+          console.log(this)
+        })
     body
       #container
           #github
@@ -23,34 +29,9 @@ html(lang="en")
         .menubar.mainbar
           .barcontent
             ul
-              li.first
-                a(href="#").selected Intro
-              li
-                a(href="#") Guide
-                .separator
-              li
-                a(href="#") Installing
-                .separator
-              li
-                a(href="#") Reference
-                .separator
-              li
-                a(href="#") About
-                .separator
-              li
-                a(href="#") Source
-                .separator
         .menubar.subbar
           .barcontent
             ul
-              li.first
-                a(href="#").selected opcion
-              li
-                a(href="#") sdfsfd
-                .separator
-              li
-                a(href="#") sdfsf
-                .separator
         != body
         #footer
           span Copyright © Ground 2010-2012
