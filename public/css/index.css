@@ -238,7 +238,7 @@ body {
   text-shadow: 0px -1px 1px black;
   font-weight: bold;
   font-size: 26px;
-  padding: 8px 0px 18px;
+  padding: 12px 0px 18px;
 }
 #content-wrapper h3 {
   color:#f2f2f2;
@@ -251,6 +251,7 @@ body {
   font-size: 16px;
   color:#f2f2f2;
   text-shadow: 0px -1px 1px black;
+  padding:2px 0px;
 }
 #content-wrapper pre {
   background-color: #3F3F3F;
