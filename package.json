@@ -1,0 +1,13 @@
+{
+ "name": "gnd.io", 
+ "version": "0.0.1",
+ "private": true,
+ "dependencies": {
+    "express": "2.5.11",
+    "jade": "0.18.0",
+    "less": ">=1.2.0",
+    "request": "2.9.153",
+    "uglify-js": "1.2.6",
+    "markdown":"0.4.0"
+ }
+}
