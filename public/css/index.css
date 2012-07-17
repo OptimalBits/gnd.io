@@ -130,7 +130,7 @@ body {
  */
 .barcontent {
   margin: auto;
-  width: 1150px;
+  width: 1250px;
 }
 .menubar {
   height: 18px;
@@ -162,7 +162,6 @@ body {
   display: block;
   color:#e6e6e6;
   font-weight: bold;
-  letter-spacing: -1px;
   transition: all 0.2s;
   -moz-transition: all 0.2s; /* Firefox 4 */
   -webkit-transition: all 0.2s; /* Safari and Chrome */
