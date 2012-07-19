@@ -29,11 +29,13 @@ $(function(){
         var $el = $(this);
         $('.selected').removeClass('selected');
         $el.addClass('selected');
-        $('.subbar ul').fadeOut('fast',function(){
-          $(this).empty();
-          var menuItem = menu[$el.data('menuindex')]
+        var menuItem = menu[$el.data('menuindex')];
+        $('html,body').animate({scrollTop: $(menuItem.orih1).offset().top-menuHeight},'slow');
+        $('.subbar').fadeOut('fast',function(){
+          $('ul',this).empty();
           var submenus = menuItem.h2;
           if (submenus) {
+            $(this).fadeIn('fast');
             for(var i=0;i<submenus.length;i++) {
               (function($submenu){
                 var content = '<a href="#">' + $submenu.text() + '</a>';
@@ -45,14 +47,11 @@ $(function(){
                   $('.subbar li').removeClass('selected')
                   $(this).addClass('selected');
                 
-                  $('body').animate({scrollTop: $submenu.offset().top-menuHeight-20},'slow');
+                  $('html,body').animate({scrollTop: $submenu.offset().top-menuHeight-20},'slow');
                 })
               })($(submenus[i]));
             }
-          } else {
-            $('body').animate({scrollTop: $(menuItem.orih1).offset().top-menuHeight},'slow');
           }
-          $(this).fadeIn('fast');
         })
       })
       

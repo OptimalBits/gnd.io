@@ -202,6 +202,7 @@ body {
 .subbar {
   font-size:13px;
   padding-bottom: 13px;
+  display: none;
 }
 #menu {
   position:absolute;
@@ -283,6 +284,9 @@ body {
   color:#f2f2f2;
   text-shadow: 0px -1px 1px black;
   padding:2px 0px;
+}
+#content-wrapper p {
+  margin:15px 0px;
 }
 #content-wrapper pre {
   background-color: #3F3F3F;
