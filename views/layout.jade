@@ -13,25 +13,34 @@ html(lang="en")
         $.each(menus,function(i,val){
           console.log(this)
         })
+      title Ground Javascript Framework
     body
       #container
+        a(href="https://github.com/OptimalBits/ginger")
           #github
-                  a(href="#")
-                    .github
-                      span Fork me on Github
-          #header
-            #title
-              .leftLine(style="float:left")
-              h1
-              .rightLine(style="float:left")
-              h2 Modern web application development framework
-              p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod nulla vitae lectus rutrum molestie. Pellentesque arcu ipsum, vehicula faucibus gravida vitae, bibendum at tortor. Quisque ut lacus sapien, eget pretium purus.
-        .menubar.mainbar
-          .barcontent
-            ul
-        .menubar.subbar
-          .barcontent
-            ul
+            .github
+              span Fork me on Github
+        #header
+          #title
+            .leftLine(style="float:left")
+            h1
+            .rightLine(style="float:left")
+            h2 Modern web application development framework
+            p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod nulla vitae lectus rutrum molestie. Pellentesque arcu ipsum, vehicula faucibus gravida vitae, bibendum at tortor. Quisque ut lacus sapien, eget pretium purus.
+            .social
+              a(href="#")
+                .social-icon
+              a(href="#")
+                .social-icon.icon-twitter
+              a(href="#")  
+                .social-icon.icon-gplus
+        #menu
+          .menubar.mainbar
+            .barcontent
+              ul
+          .menubar.subbar
+            .barcontent
+              ul
         #content-wrapper 
           !{content} 
         #footer

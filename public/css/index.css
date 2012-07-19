@@ -116,7 +116,7 @@ body {
   -o-transform: rotate(-45deg);
   -moz-transform: rotate(-45deg);
 }
-#github a {
+#github span {
   color: #394307;
   text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.2);
   font-family: lato;
@@ -124,6 +124,28 @@ body {
   font-weight: bolder;
   font-size: 17px;
   text-decoration: none;
+}
+.social {
+  float: right;
+  position: absolute;
+  top: 23px;
+  left: 680px;
+  width: 170px;
+}
+.social a {
+  float:left;
+  margin-left:18px;
+}
+.social-icon {
+  width: 32px;
+  height: 32px;
+  background: url(/img/social-icons.png);
+}
+.icon-twitter {
+  background-position-x: -32px;
+}
+.icon-gplus {
+  background-position-x: -64px;
 }
 /**
  * Horizontal bars
@@ -181,6 +203,11 @@ body {
   font-size:13px;
   padding-bottom: 13px;
 }
+#menu {
+  position:absolute;
+  top:auto;
+  width: 100%;
+}
 .menubar .selected{
   border-radius: 6px;
   border: 1px black solid;
@@ -219,6 +246,7 @@ body {
  #content-wrapper {
   width: 874px;
   margin: auto;
+  margin-top: 70px;
 }
 #content-wrapper .article{
   padding:0px 70px;
