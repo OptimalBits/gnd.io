@@ -252,6 +252,16 @@ body {
 #content-wrapper .article{
   padding:0px 70px;
 }
+#content-wrapper a {
+  color:#508ac3;
+  text-decoration:none;
+}
+#content-wrapper a:visited {
+  color:#508ac3;
+}
+#content-wrapper a:hover {
+  text-decoration:underline;
+}
 #content-wrapper h1 {
   font-style: italic;
   font-weight: bolder;
