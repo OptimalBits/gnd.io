@@ -50,7 +50,7 @@ var menu = function(){
   this.select = function(str) {
     for(var i=0;i<_this.menuElements.length;i++) {
       var menuEl = _this.menuElements[i];
-      if ( menuEl.$oriEl.text() == str ) {
+      if ( menuEl.urlText == str ) {
         menuEl.select();
         menuEl.showSubmenu();
         var scroll = menuEl.$oriEl.offset().top;
@@ -59,7 +59,7 @@ var menu = function(){
       }
       for(var j=0;j<menuEl.subelements.length;j++) {
         var subMenu = menuEl.subelements[j];
-        if(subMenu.$oriEl.text() == str ) {
+        if(subMenu.urlText == str ) {
           menuEl.select();
           menuEl.showSubmenu();
           subMenu.select();
@@ -77,10 +77,12 @@ var menuElement = function(orih1,h1Count) {
   this.subelements = [];
   this.$oriEl = $(orih1);
   this.$el;
+  this.text = this.$oriEl.text();
+  this.urlText = this.text.replace(/ /g,'_');
   
   var _this = this;
-  
-  var content = '<a href="#'+ _this.$oriEl.text() +'">' + _this.$oriEl.text() + '</a>';
+
+  var content = '<a href="#'+ _this.urlText +'">' + _this.text + '</a>';
   if ( h1Count > 0 ) {
     content += '<div class="separator"></div>';
   }
@@ -112,8 +114,12 @@ var menuElement = function(orih1,h1Count) {
 
 var subelement = function(oriEl,h2Count) {
   this.$oriEl = $(oriEl);
+  this.text = this.$oriEl.text();
+  this.urlText = this.text.replace(/ /g,'_');
+  
   var _this = this;
-  var content = '<a href="#'+ _this.$oriEl.text() +'">' + _this.$oriEl.text() + '</a>';
+
+  var content = '<a href="#'+ _this.urlText +'">' + _this.text + '</a>';
   if ( h2Count > 0 ) {
     content += '<div class="separator"></div>';
   }
