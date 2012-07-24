@@ -315,6 +315,12 @@ body {
   margin-bottom: 20px;
   background: rgba(255, 255, 255, 0.05);
 }
+#footer a {
+  text-decoration:none;
+}
+#footer span:hover {
+  color:#c1c0c0;
+}
 #footer span {
   font-weight: bold;
   font-size: 12px;
