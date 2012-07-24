@@ -138,6 +138,10 @@ var subelement = function(oriEl,h2Count) {
 }
 
 var scrollTo = function(index) {
-  console.log(index)
-  $('html,body').animate({scrollTop: index},'slow');
+  var currentScroll = $(window).scrollTop();
+  if (Math.abs(index - currentScroll) > 2000) {
+    $('html,body').scrollTop(index);
+  } else {
+    $('html,body').animate({scrollTop: index},'slow');
+  }
 }
