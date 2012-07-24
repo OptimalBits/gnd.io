@@ -8,6 +8,6 @@
     "less": ">=1.2.0",
     "request": "2.9.153",
     "uglify-js": "1.2.6",
-    "markdown":"0.4.0"
+    "node-markdown":"0.1.1"
  }
 }
