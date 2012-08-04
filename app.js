@@ -5,6 +5,7 @@ var express = require('express'),
   port = process.argv[2] || 8000;
 
 app.use(express.static(__dirname + '/public'));
+app.set('views', __dirname + '/views');
 
 app.get('/', function(req, res){
   request('https://raw.github.com/OptimalBits/ginger/master/Readme.md', function(error, response, body){
