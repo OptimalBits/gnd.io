@@ -1,4 +1,4 @@
-$(function(){
+$(function() {
   hljs.initHighlightingOnLoad();
   
   /* Make menu bar to stay on top when the page scrolldowns */
@@ -18,12 +18,14 @@ $(function(){
   var menubar = new menu();
   menubar.make();
   
-  /* scroll to anchors */
-  var anchor = location.hash;
-  if (anchor) {
-    var text = anchor.substring(1);
-    menubar.select(text);
-  }
+  /* scroll to anchors, we load it here because jquery.ready() doesnt work with font-faces */
+  $(window).bind("load", function() {
+    var anchor = location.hash;
+    if (anchor) {
+      var text = anchor.substring(1);
+      menubar.select(text);
+    }
+  });
 })
 
 var menu = function(){
@@ -54,7 +56,7 @@ var menu = function(){
         menuEl.select();
         menuEl.showSubmenu();
         var scroll = menuEl.$oriEl.offset().top;
-        scrollTo(scroll - 0.04*scroll - 20);
+        scrollTo(scroll - 50);
         return true;
       }
       for(var j=0;j<menuEl.subelements.length;j++) {
@@ -64,7 +66,7 @@ var menu = function(){
           menuEl.showSubmenu();
           subMenu.select();
           var scroll = subMenu.$oriEl.offset().top;
-          scrollTo(scroll - 0.04*scroll - 80);
+          scrollTo(scroll - 100);
           return true;
         }
       }
@@ -138,6 +140,10 @@ var subelement = function(oriEl,h2Count) {
 }
 
 var scrollTo = function(index) {
-  console.log(index)
-  $('html,body').animate({scrollTop: index},'slow');
+  var currentScroll = $(window).scrollTop();
+  if (Math.abs(index - currentScroll) > 2000) {
+    $('html,body').scrollTop(index);
+  } else {
+    $('html,body').animate({scrollTop: index},'slow');
+  }
 }
