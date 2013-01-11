@@ -1,0 +1,31 @@
+div(class="container")
+  div(class="row")
+  h1 List Example
+  p This example shows a custom ground view
+  div(id="myLibrary")
+    div 
+      input(data-event="keyup: list.inputSearchHandler",class="inputSearch",type="text",placeholder="Search movies")
+      button(data-event="click: list.sortTitleHandler", class="sortTitle btn")
+      button(data-event="click: list.showAllHandler", class="showAll btn") Show All
+      button(data-event="click: list.filterByActionHandler", class="showAction btn") Show Action
+      table(class="table table-condensed", style="margin-top: 16px;")
+        thead
+          tr
+            th Title
+            th Genre
+            th Action
+        tbody
+          tr(data-each="list.movies : movie")
+            td
+              span(data-bind="text: movie.title")
+            td
+              span(data-bind="text: movie.genre")
+            td
+              i(style="margin-left: 16px;cursor:pointer;",class="icon-remove",data-event="click: movie.removeHandler")
+          tr
+            td
+              input(type="text" id="name" placeholder="Name")
+            td
+              input(type="text" id="genre" placeholder="Genre")
+            td
+              button(data-event="click: list.addMovieHandler",class="addNew btn") Add

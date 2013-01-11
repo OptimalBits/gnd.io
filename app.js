@@ -7,7 +7,7 @@ var express = require('express'),
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res){
-  request('https://raw.github.com/OptimalBits/ginger/master/Readme.md', function(error, response, body){
+  request('https://raw.github.com/OptimalBits/ginger/ts/Readme.md', function(error, response, body){
     if (!error && response.statusCode == 200) {
       res.render('index.jade', {content:md(body)});
     }else{
@@ -15,6 +15,14 @@ app.get('/', function(req, res){
     }
   })
 });
+
+app.get('/demos/list', function(req,res) {
+  res.render('demos/list.jade');
+})
+
+app.get('/demos/routes', function(req,res) {
+  res.render('demos/routes.jade');
+})
 
 app.listen(port);
 console.log("Started web server in port %s", port);

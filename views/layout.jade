@@ -1,54 +1,46 @@
 doctype 5
 html(lang="en")
-    head
-      link(href="http://fonts.googleapis.com/css?family=Lato:400,700,900,300italic,400italic,700italic,900italic", rel="stylesheet", type="text/css")
-      link(rel="stylesheet", type="text/css", href="css/index.css")
-      link(rel="stylesheet", type="text/css", href="css/zenburn.css")
-      script(src="/js/highlight.pack.js")
-      script(src="/js/jquery-1.7.1.min.js")
-      script(src="/js/main.js", defer="defer")
-        hljs.initHighlightingOnLoad();
-
-        var menus = $('h1','#content-wrapper');
-        $.each(menus,function(i,val){
-          console.log(this)
-        })
-      title Ground Javascript Framework
-    body
-      #container
-        a(href="https://github.com/OptimalBits/ginger",style="text-decoration: none")
-          #github
-            .github
-              span Fork me on Github
-        #header
-          #title
-            .leftLine(style="float:left")
-            h1
-            .rightLine(style="float:left")
-            h2 Modern web application development framework
-            p 
-              | Create advanced web applications based on the latest technologies using a logical 
-              | and light-weight framework. Built to provide seamless realtime client-server 
-              | synchronization and complete offline support.
-          
-            .social
-              a(href="http://twitter.com/optimalbits")
-                .social-icon.icon-twitter
-              //
-                a(href="#")
-                  .social-icon
-                a(href="#")
-                  .social-icon.icon-gplus
-        #menu
-          .menubar.mainbar
-            .barcontent
-              ul
-          .menubar.subbar
-            .barcontent
-              ul
-        #content-wrapper 
-          !{content} 
-        #footer
-          a(href="http://optimalbits.com")
-            span Copyright © OptimalBits 2010-2012
-
+  head
+    link(href="http://fonts.googleapis.com/css?family=Lato:400,700,900,300italic,400italic,700italic,900italic", rel="stylesheet", type="text/css")
+    link(rel="stylesheet", type="text/css", href="/css/index.css")
+    link(rel="stylesheet", type="text/css", href="/css/zenburn.css")
+    script(src="/js/highlight.pack.js")
+    script(src="/js/jquery-1.7.1.min.js")
+    script(src="/js/main.js", defer="defer")
+    title Ground Javascript Framework
+  body
+    #container
+      a(href="https://github.com/OptimalBits/ginger",style="text-decoration: none")
+        #github
+          .github
+            span Fork me on Github
+      #header
+        #title
+          .leftLine(style="float:left")
+          h1
+          .rightLine(style="float:left")
+          h2 Modern web application development framework
+          p 
+            | Create advanced web applications based on the latest technologies using a logical 
+            | and light-weight framework. Built to provide seamless realtime client-server 
+            | synchronization and complete offline support.
+        
+          .social
+            a(href="http://twitter.com/optimalbits")
+              .social-icon.icon-twitter
+            //
+              a(href="#")
+                .social-icon
+              a(href="#")
+                .social-icon.icon-gplus
+      #menu
+        .menubar.mainbar
+          .barcontent
+            ul
+        .menubar.subbar
+          .barcontent
+            ul
+      #content-wrapper!=body
+      #footer
+        a(href="http://optimalbits.com")
+          span Copyright © OptimalBits 2010-2012
