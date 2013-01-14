@@ -49,7 +49,7 @@ script
         },
         sortTitleHandler : function( node , evt ){
           library.movies.set('sortByFn',function(item){
-            return item.title;
+            return item.title.toLowerCase();
           })
           if(library.movies.sortOrder == 'desc') {
             library.movies.sortOrder = 'asc';
@@ -59,7 +59,9 @@ script
         },
         inputSearchHandler : function( node , evt ){
           library.movies.set('filterFn', function(item){
-            return item.title.search( node.value ) >= 0
+            var title = item.title.toLowerCase();
+            var search = node.value.toLowerCase();
+            return title.search( search ) >= 0
           })
         },
         addMovieHandler : function( node , evt ){
