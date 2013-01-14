@@ -13,11 +13,12 @@ script
     };
 link(href="/lib/ground/examples/list/bootstrap/css/bootstrap.min.css",rel="stylesheet",media="screen")
 script(src="https://raw.github.com/cujojs/curl/master/dist/curl-kitchen-sink/curl.js")
-script
+script(id="demo-list-js")
   curl(['underscore'], function(_){
     curl(['ground'], function(Gnd){
       // Custom data to add in the list
-      var moviesData = [{ title : 'Django Unchained',
+      var moviesData = [
+                        { title : 'Django Unchained',
                           genre : 'Action'},
                         { title : 'The Hobbit: An Unexpected Journey ',
                           genre : 'Adventures'},
@@ -98,13 +99,19 @@ script
       var viewModel = new Gnd.ViewModel(document.getElementById('myLibrary'), {list: library});
     })
   })
+script
+  $(function(){
+    $('#code-example').text($('#demo-list-js').text()); // Add javascript code preview
+    $('#code-example-html').text($.trim($('#myLibrary').html())); // Add html code preview
+    $('.barcontent').html('<ul style="margin:auto"><li style="width: 100%;text-align: center;margin: 0px;"><a href="/">Return to Ground.io</a></li></ul>'); // Fill the empty menubar
+  })
 div(class="container")
   div(class="row")
     h2 List Example
     p This example shows a custom ground view
     div(id="myLibrary")
       div 
-        input(data-event="keyup: list.inputSearchHandler",class="inputSearch",type="text",placeholder="Search movies")
+        input(data-event="keyup: list.inputSearchHandler",class="inputSearch",type="text",placeholder="Search...")
       button(data-event="click: list.sortTitleHandler", class="sortTitle btn") Sort by title
       button(data-event="click: list.showAllHandler", class="showAll btn" ,style="margin: 0px 6px;") Show All
       button(data-event="click: list.filterByActionHandler", class="showAction btn") Show Action
@@ -129,3 +136,11 @@ div(class="container")
               input(type="text",id="genre",placeholder="Genre")
             td(style="padding-top: 20px;")
               button(data-event="click: list.addMovieHandler",class="addNew btn") Add
+h3(style="padding-bottom: 0px;margin-top: 36px;") Javascript code
+p This is where we set the logic of the application.
+pre
+  code(class="javascript",id="code-example")
+h3 Html code
+p This is where we set the html estructure and the bindings.
+pre
+  code(class="xml",id="code-example-html")

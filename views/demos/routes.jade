@@ -13,7 +13,7 @@ script
       }
     };
 script(src="https://raw.github.com/cujojs/curl/master/dist/curl-kitchen-sink/curl.js")
-script
+script(id="demo-list-js")
     curl(['underscore'], function(_){
       curl(['ground'], function(gnd){
         Gnd.Route.listen(function(req) {
@@ -45,8 +45,17 @@ script
         })
       })
     })
+script
+script
+  $(function(){
+    $('.barcontent').html('<ul style="margin:auto"><li style="width: 100%;text-align: center;margin: 0px;"><a href="/">Return to Ground.io</a></li></ul>'); // Fill the empty menubar
+    $('#code-example').text($('#demo-list-js').text()); // insert the code preview
+  })
 .routes-example
   h2 Routing example
   p This example demonstrates how Ground's hierarchical routing works</p>
   div(id="main")
   div(style="float:none;clear:both;padding-top:20px;")
+h3 Code example
+pre 
+ code(id="code-example")

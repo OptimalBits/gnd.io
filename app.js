@@ -18,7 +18,7 @@ app.get('/', function(req, res){
 });
 
 app.get('/demos/list', function(req,res) {
-  res.render('demos/list.jade');
+  res.render('demos/list.jade',{ pretty: true });
 })
 
 app.get('/demos/routes', function(req,res) {
