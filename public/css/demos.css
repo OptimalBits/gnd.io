@@ -1,0 +1,29 @@
+.routes-example * {
+  font-family: sans-serif;
+}
+
+.routes-example a {
+  display: block;
+  padding: 5px;
+  margin: 5px;
+  width: 130px;
+  height: 15px;
+  color: black !important;
+  background: #bada55;
+  border: 1px solid #9aba35;
+  border-radius: 5px;
+  text-decoration: none;
+  text-align: center;
+}
+
+.routes-example a:hover {
+  background: #dafa75;
+}
+
+.routes-example div {
+  float: left;
+}
+
+.routes-example p {
+  clear: left;
+}
