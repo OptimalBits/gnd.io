@@ -17,6 +17,10 @@ app.get('/', function(req, res){
   })
 });
 
+app.get('/demos/table', function(req,res) {
+  res.render('demos/table.jade',{ pretty: true });
+})
+
 app.get('/demos/list', function(req,res) {
   res.render('demos/list.jade',{ pretty: true });
 })

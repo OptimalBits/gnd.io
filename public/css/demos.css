@@ -27,3 +27,18 @@
 .routes-example p {
   clear: left;
 }
+
+#myLibrary li {
+  padding: 5px;
+  border: rgb(148, 147, 147) 1px solid;
+  margin: 6px 0px;
+  border-radius: 5px;
+  width: 415px;
+  box-shadow: black 0px 0px 3px;
+}
+#myLibrary img {
+  border: black 1px solid;
+}
+#myLibrary li:nth-child(odd) {
+  background: rgba(111,111,111,0.2);
+}
