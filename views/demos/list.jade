@@ -71,9 +71,7 @@ script(id="demo-list-js")
         },
         inputSearchHandler : function(node,evt){
           library.movies.set('filterFn', function(item){
-            var title = item.title.toLowerCase();
-            var search = node.value.toLowerCase();
-            return title.search( search ) >= 0
+            return Gnd.Util.searchFilter(item,node.value.toLowerCase(),['title']);
           })
         },
         addMovieHandler : function(node,evt){

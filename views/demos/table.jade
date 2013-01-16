@@ -63,9 +63,7 @@ script(id="demo-list-js")
         },
         inputSearchHandler : function(node,evt){
           library.movies.set('filterFn', function(item){
-            var title = item.title.toLowerCase();
-            var search = node.value.toLowerCase();
-            return title.search(search) >= 0
+            return Gnd.Util.searchFilter(item,node.value.toLowerCase(),['title'])
           })
         },
         addMovieHandler : function(node,evt){
@@ -147,7 +145,7 @@ h1(style="padding-bottom: 0px;margin-top: 36px;") Javascript code
 p This is where we set the logic of the application.
 pre
   code(class="javascript",id="code-example")
-h1 Html code
+h1 Html
 p This is where we set the html estructure and the bindings.
 pre
   code(class="xml",id="code-example-html")
