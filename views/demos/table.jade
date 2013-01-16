@@ -106,11 +106,11 @@ script
   $(function(){
     $('#code-example').text($('#demo-list-js').text()); // Add javascript code preview
     $('#code-example-html').text($.trim($('#myLibrary').html())); // Add html code preview
-    $('.barcontent').html('<ul style="margin:auto"><li style="width: 100%;text-align: center;margin: 0px;"><a href="/">Return to Ground.io</a></li></ul>'); // Fill the empty menubar
+    //$('.barcontent').html('<ul style="margin:auto"><li style="width: 100%;text-align: center;margin: 0px;"><a href="/">Return to Ground.io</a></li></ul>'); // Fill the empty menubar
   })
+h1 Table Example
 div(class="container")
   div(class="row")
-    h2 Table Example
     p This example shows a ViewModel working with table
     div(id="myLibrary")
       div 
@@ -143,11 +143,11 @@ div(class="container")
               input(type="text",id="genre",placeholder="Genre")
             td(style="padding-top: 20px;")
               button(data-event="click: list.addMovieHandler",class="addNew btn") Add
-h3(style="padding-bottom: 0px;margin-top: 36px;") Javascript code
+h1(style="padding-bottom: 0px;margin-top: 36px;") Javascript code
 p This is where we set the logic of the application.
 pre
   code(class="javascript",id="code-example")
-h3 Html code
+h1 Html code
 p This is where we set the html estructure and the bindings.
 pre
   code(class="xml",id="code-example-html")
