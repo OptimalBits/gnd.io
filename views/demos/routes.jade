@@ -21,24 +21,26 @@ script(id="demo-list-js")
           
           req.get('','#main',function() {
         
-            req.load('data/fauna.json');
-            req.render('templates/fauna.tmpl')
-            //req.enter(function(){});
+            req
+              .load('data/fauna.json')
+              .render('templates/fauna.tmpl')
+              .enter(function(el){$(el).show('fast')})
         
             // Family
             req.get(':family', '#family', function() { // ':family' is a parameter
               req
                 .load('data/families/' + req.params['family'] + '.json')
                 .render('templates/family.tmpl')
-              //  .enter('slideDown', 'slow')
-               // .exit('slideUp', 'slow');
+                .enter(function(el){$(el).show('slow')})
+                .exit(function(el, done){$(el).hide(done)})
        
               // Animal
               req.get(':animal', '#animal', function() { // ':animal' is a parameter
-                req.load('data/families/' + req.params['family'] + '/' +req.params['animal'] + '.json')
+                req
+                  .load('data/families/' + req.params['family'] + '/' +req.params['animal'] + '.json')
                   .render('templates/animal.tmpl')
-                 // .enter('fadeIn', 'slow')
-                  //.exit('fadeOut', 'slow');
+                  .enter(function(el){$(el).show('fadeIn')})
+                  .exit(function(el, done){$(el, done).hide(done)})
               });
             });
           })
