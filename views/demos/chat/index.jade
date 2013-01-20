@@ -37,8 +37,8 @@ script(type="text/template", id="chatroom-template")
     h3(data-bind="text:room.name", style="padding-bottom: 0px;");
     #history.well(style="overflow: auto;height: 100px;")
       p(data-each="messages : message",style="margin: 0px;color: #48484c;text-shadow: none;")
-        <!--small(data-bind="text: message.ts")-->
-        <!--small &nbsp;:&nbsp;-->
+        small(data-bind="text: message.ts  | timeFormatter")
+        small &nbsp;:&nbsp;
         small(data-bind="text: message.text")
     .form-horizontal
       .control-group
@@ -66,8 +66,8 @@ script
         
         // Helper function to render templates
         function renderTemplate(tmplName,selector) {
-          var template = _.template(Gnd.$$('#' + tmplName).innerHTML);
-          Gnd.$$(selector).innerHTML = template();
+          var template = _.template(Gnd.$('#' + tmplName)[0].innerHTML);
+          Gnd.$(selector)[0].innerHTML = template();
         }
 
         // Routing
@@ -146,7 +146,7 @@ script
                 vmRoom.set('name', '');
                 // Focus on inputbox
                 Gnd.Util.nextTick(function() {
-                  Gnd.$$('#roomname').focus();
+                  Gnd.$('#roomname')[0].focus();
                 });
               }
 
@@ -160,7 +160,7 @@ script
 
               // Create a ViewModel and bind it to the dom
               var viewModel = new Gnd.ViewModel(
-                Gnd.$$('#main'),
+                Gnd.$('#main')[0],
                 {
                   newRoom: vmRoom,
                   rooms: rooms,
@@ -200,11 +200,11 @@ script
 
                 // Set focus to inputbox
                 Gnd.Util.nextTick(function() {
-                  Gnd.$$('#msgbox').focus();
+                  Gnd.$('#msgbox')[0].focus();
                 });
 
                 // move the history chat to the bottom
-                Gnd.$$('#history').scrollTop = 10000;
+                Gnd.$('#history')[0].scrollTop = 10000;
               };
 
               // Create event handlers
@@ -218,11 +218,17 @@ script
 
               // Create a ViewModel and bind it to the dom
               var viewModel = new Gnd.ViewModel(
-                Gnd.$$('#chatroom'),
+                Gnd.$('#chatroom')[0],
                 {
                   messages: messages,
                   currentMsg: currentMsg,
                   room: room
+                },
+                {
+                  timeFormatter: function(timestamp){
+                    var time = new Date(timestamp);
+                    return '['+time.getHours() +':'+ time.getMinutes() +':'+ time.getSeconds()+']';
+                  }
                 }
               );
             });
