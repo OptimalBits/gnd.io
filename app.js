@@ -18,10 +18,12 @@ app.use(express.static(__dirname + '/public'));
 app.set('views', __dirname + '/views');
 
 app.get('/', function(req, res){
-  request('https://raw.github.com/OptimalBits/ginger/ts/Readme.md', function(error, response, body){
+  request('https://raw.github.com/OptimalBits/ground/ts/Readme.md', function(error, response, body){
     if (!error && response.statusCode == 200) {
       res.render('index.jade', {content:md(body)});
     }else{
+      console.log(error);
+      console.log(response);
       res.send('Error generating page, please try later on...');
     }
   })
