@@ -24,10 +24,10 @@ script(type="text/template",id="main-template")
         p(style="padding:0px")
           label(class="control-label", for="roomname") Room name:
         .controls
-          input(type="text", id="roomname", placeholder="Room name",data-bind="value: newRoom.name")
+          input(type="text", id="roomname", placeholder="Room name",data-bind="value: newRoom.name", data-event="keypress: chat.onKeyPress")
           input(id="submit", type="submit", class="btn btn-small", value="Create new Chat Room", data-event="click: chat.onNewRoom")
     .navbar
-      .navbar-inner
+      .navbar-inner(style="display: inline-block;")
         ul(id="link",class="nav",style="padding:0px;margin:0px;")
           li(data-each="rooms: room")
             a(data-bind="attr: { href: room.url, title: room.name }")
