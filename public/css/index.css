@@ -301,9 +301,10 @@ html body {
   margin: 15px 0;
 }
 #content-wrapper p,#content-wrapper li {
+  line-height: 22px;
+  font-size: 300px;
   font-size: 16px;
   color:#f2f2f2;
-  text-shadow: 0px -1px 1px black;
   padding:2px 0px;
 }
 #content-wrapper p {
