@@ -228,7 +228,7 @@ script
                 {
                   timeFormatter: function(timestamp){
                     var time = new Date(timestamp);
-                    return '['+time.getHours() +':'+ time.getMinutes() +':'+ time.getSeconds()+']';
+                    return '[' + time.toLocaleString() + ']';
                   }
                 }
               );
