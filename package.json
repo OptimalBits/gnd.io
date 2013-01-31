@@ -8,6 +8,7 @@
     "less": ">=1.2.0",
     "request": "2.9.153",
     "uglify-js": "1.2.6",
-    "node-markdown":"0.1.1"
+    "node-markdown":"0.1.1",
+    "require-typescript":"*"
  }
 }
