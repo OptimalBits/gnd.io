@@ -7,7 +7,8 @@ var express = require('express'),
   md = require("node-markdown").Markdown,
   app = express.createServer(),
   sio = require('socket.io').listen(app),
-  port = process.argv[2] || 8000,
+  port = process.env['GNDIO_PORT'] || 8000,
+  mongoHost = process.env['MONGO_HOST'] || 'localhost';
 
   mongoose = require('mongoose'),
   redis = require('redis'),
@@ -81,7 +82,7 @@ var models = {
 };
 
 // Setup mongodb
-mongoose.connect('mongodb://localhost/exDB', function(){
+mongoose.connect('mongodb://'+mongoHost+'/exDB', function(){
   // mongoose.connection.db.executeDbCommand( {dropDatabase:1}, function(err, result) {
   //   console.log(result);
   //   mongoose.disconnect(function(){
