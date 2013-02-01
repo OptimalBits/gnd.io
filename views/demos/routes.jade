@@ -32,7 +32,7 @@ script(id="demo-list-js")
                 .load('data/families/' + req.params['family'] + '.json')
                 .render('templates/family.tmpl')
                 .enter(function(el){$(el).show('slow')})
-                .exit(function(el, done){$(el).hide(done)})
+                .exit(function(el, done){$(el).hide('fadeOut', done)})
        
               // Animal
               req.get(':animal', '#animal', function() { // ':animal' is a parameter
@@ -40,7 +40,7 @@ script(id="demo-list-js")
                   .load('data/families/' + req.params['family'] + '/' +req.params['animal'] + '.json')
                   .render('templates/animal.tmpl')
                   .enter(function(el){$(el).show('fadeIn')})
-                  .exit(function(el, done){$(el, done).hide(done)})
+                  .exit(function(el, done){$(el).hide(done)})
               });
             });
           })
