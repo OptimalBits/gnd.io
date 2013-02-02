@@ -16,29 +16,30 @@ script(src="https://raw.github.com/cujojs/curl/master/dist/curl-kitchen-sink/cur
 script(id="demo-list-js")
     curl(['underscore'], function(_){
       curl(['ground'], function(gnd){
-        Gnd.Route.listen(function(req) {
-          req.use('template', _.template);
-          
+        
+        Gnd.use('template', _.template);
+      
+        Gnd.Route.listen(function(req) {          
           req.get('','#main',function() {
         
             req
-              .load('data/fauna.json')
-              .render('templates/fauna.tmpl')
+              .load('routes/data/fauna.json')
+              .render('routes/templates/fauna.tmpl')
               .enter(function(el){$(el).show('fast')})
         
             // Family
             req.get(':family', '#family', function() { // ':family' is a parameter
               req
-                .load('data/families/' + req.params['family'] + '.json')
-                .render('templates/family.tmpl')
+                .load('routes/data/families/' + req.params['family'] + '.json')
+                .render('routes/templates/family.tmpl')
                 .enter(function(el){$(el).show('slow')})
                 .exit(function(el, done){$(el).hide('fadeOut', done)})
        
               // Animal
               req.get(':animal', '#animal', function() { // ':animal' is a parameter
                 req
-                  .load('data/families/' + req.params['family'] + '/' +req.params['animal'] + '.json')
-                  .render('templates/animal.tmpl')
+                  .load('routes/data/families/' + req.params['family'] + '/' +req.params['animal'] + '.json')
+                  .render('routes/templates/animal.tmpl')
                   .enter(function(el){$(el).show('fadeIn')})
                   .exit(function(el, done){$(el).hide(done)})
               });

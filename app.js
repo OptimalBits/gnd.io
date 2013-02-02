@@ -63,7 +63,7 @@ app.get('/demos/list', function(req,res) {
   res.render('demos/list.jade',{ pretty: true });
 })
 
-app.get('/demos/routes', function(req,res) {
+app.get('/demos/route', function(req,res) {
   res.render('demos/routes.jade');
 })
 
