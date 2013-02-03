@@ -75,8 +75,8 @@ script(id="demo-list-js")
           })
         },
         addMovieHandler : function(node,evt){
-          var name = Gnd.$$('#name')
-          var genre = Gnd.$$('#genre')
+          var name = Gnd.$('#name')[0];
+          var genre = Gnd.$('#genre')[0];
           var movie = new Movie( { 
             title:name.value,
             genre:genre.value,
