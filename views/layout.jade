@@ -4,6 +4,17 @@ html(lang="en")
     link(href="http://fonts.googleapis.com/css?family=Lato:400,700,900,300italic,400italic,700italic,900italic", rel="stylesheet", type="text/css")
     link(rel="stylesheet", type="text/css", href="/css/index.css")
     link(rel="stylesheet", type="text/css", href="/css/zenburn.css")
+    script(type="text/javascript")
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-38140208-2']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
     script(src="/js/highlight.pack.js")
     script(src="/js/jquery-1.7.1.min.js")
     script(src="/js/main.js", defer="defer")
