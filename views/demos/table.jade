@@ -97,7 +97,12 @@ script(id="demo-list-js")
       library.movies = new Gnd.Collection(Movie, library, movies);
       
       // bind the collection to the HMTL
-      var viewModel = new Gnd.ViewModel(document.getElementById('myLibrary'), {list:library});
+      var viewModel = new Gnd.ViewModel(document.getElementById('myLibrary'), {list:library},{
+        escapeFn: function(text){
+          return _.escape(text);
+          }
+        }
+      );
     })
   })
 script
@@ -129,9 +134,9 @@ div(class="container")
         tbody
           tr(data-each="list.movies : movie")
             td
-              span(data-bind="text: movie.title")
+              span(data-bind="text: movie.title | escapeFn")
             td
-              span(data-bind="text: movie.genre")
+              span(data-bind="text: movie.genre | escapeFn")
             td
               i(style="margin-left: 16px;cursor:pointer;",class="icon-remove icon-white",data-event="click: movie.removeHandler")
           tr
