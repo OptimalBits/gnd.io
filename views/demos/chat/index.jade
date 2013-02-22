@@ -235,9 +235,7 @@ script
                     var time = new Date(timestamp);
                     return '[' + time.toLocaleString() + ']';
                   },
-                  escape: function(text){
-                    return _.escape(text);
-                  }
+                  escape: _.escape
                 }
               );
             });

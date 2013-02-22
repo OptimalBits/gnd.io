@@ -106,10 +106,9 @@ script(id="demo-list-js")
       
       // bind the collection to the HMTL
       var viewModel = new Gnd.ViewModel(document.getElementById('myLibrary'), {list: library},{
-        escapeFn: function(text){
-          return _.escape(text);
+          escape: _.escape
         }
-      })
+      )
     })
   })
 script
@@ -140,7 +139,7 @@ div(class="container")
                 img(class="media-object",data-src="holder.js/64x64",alt="64x64",style="width: 64px; height: 64px;",data-bind="src:movie.img")
               div(class="media-body")
                 strong
-                 h4(class="media-heading",data-bind="text:movie.title | escapeFn")
+                 h4(class="media-heading",data-bind="text:movie.title | escape")
                 span(data-bind="text:movie.genre",class="muted")
 h1(style="padding-bottom: 0px;margin-top: 36px;") Javascript code
 p This is where we set the logic of the application.
