@@ -97,7 +97,7 @@ script(id="demo-list-js")
       library.movies = new Gnd.Collection(Movie, library, movies);
       
       // bind the collection to the HMTL
-      var viewModel = new Gnd.ViewModel(document.getElementById('myLibrary'), {list:library},{
+      var viewModel = new Gnd.ViewModel(Gnd.$('#myLibrary')[0], {list:library},{
           escape: _.escape
         }
       );
