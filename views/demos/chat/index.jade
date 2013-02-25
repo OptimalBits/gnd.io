@@ -30,16 +30,16 @@ script(type="text/template",id="main-template")
       .navbar-inner(style="display: inline-block;")
         ul(id="link",class="nav",style="padding:0px;margin:0px;")
           li(data-each="rooms: room")
-            a(data-bind="attr: { href: room.url, title: room.name }")
-              span(data-bind="text: room.name")
+            a(data-bind="attr: { href: room.url, title: room.name | escape}")
+              span(data-bind="text: room.name | escape")
 script(type="text/template", id="chatroom-template")
   #chatroom
     h3(data-bind="text:room.name", style="padding-bottom: 0px;");
-    #history.well(style="overflow: auto;height: 100px;")
+    #history.well(style="overflow: auto;height: 250px;")
       p(data-each="messages : message",style="margin: 0px;color: #48484c;text-shadow: none;")
-        small(data-bind="text: message.ts  | timeFormatter")
+        small(data-bind="text: message.ts | timeFormatter")
         small &nbsp;:&nbsp;
-        small(data-bind="text: message.text")
+        small(data-bind="text: message.text | escape")
     .form-horizontal
       .control-group
         .controls(style="margin: 0px;")
@@ -166,6 +166,11 @@ script
                   newRoom: vmRoom,
                   rooms: rooms,
                   chat: chat
+                },
+                {
+                  escape: function(text){
+                    return _.escape(text);
+                  }
                 }
               );
             });
@@ -229,7 +234,8 @@ script
                   timeFormatter: function(timestamp){
                     var time = new Date(timestamp);
                     return '[' + time.toLocaleString() + ']';
-                  }
+                  },
+                  escape: _.escape
                 }
               );
             });
