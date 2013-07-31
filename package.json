@@ -7,14 +7,13 @@
     "socket.io": "0.9.13",
     "mongoose": "*",
     "redis": "*",
-    "typescript": "",
-    "node-uuid": "",
-    "execSync": "0.0.1",
     "express": "2.5.11",
     "jade": "0.18.0",
     "less": ">=1.2.0",
     "request": "2.9.153",
     "uglify-js": "1.2.6",
-    "node-markdown":"0.1.1"
+    "node-markdown":"0.1.1",
+    "gnd":"*",
+    "cabinet":"*"
  }
 }
