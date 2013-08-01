@@ -18,7 +18,7 @@ var express = require('express'),
 
 //app.use(express.static(__dirname + '/public'));
 
-console.log(Gnd.lib)
+console.log('Using: '+Gnd.lib);
 
 app.use(cabinet(__dirname + '/public', {
   files: {
@@ -27,6 +27,13 @@ app.use(cabinet(__dirname + '/public', {
     '/lib/third/curl.js': Gnd.third.curl,
   },
 }));
+
+
+app.use(cabinet(Gnd.docs, {
+  prefix: '/api'
+}))
+
+
 app.set('views', __dirname + '/views');
 
 app.get('/', function(req, res){
@@ -56,10 +63,7 @@ app.get('/demos/route', function(req,res) {
 app.get('/demos/chat', function(req,res) {
   res.render('demos/chat/index.jade',{ pretty: true });
 })
-/* api still not working
-app.get('/api/',function(req,res){
-  res.render('api/index.jade');
-})*/
+
 // Setup a mongo DB. This is used by the chat example
 var Message = new Schema({
   _cid: {type: String},
