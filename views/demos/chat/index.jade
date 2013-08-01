@@ -87,45 +87,38 @@ script
       rooms: new Gnd.CollectionSchemaType(Room, 'rooms')
     });
     var Chat = Gnd.Model.extend('chats', ChatSchema);
-
-    // Helper function to render templates into a DOM element
-    function renderTemplate(tmplName, selector) {
-      var template = _.template(Gnd.$('#' + tmplName)[0].innerHTML);
-      // use $.text()
-      Gnd.$(selector)[0].innerHTML = template();
-    }
-
-    // Routing
+    
+    //
+    // Handle routes
+    //
     Gnd.Route.listen(function(req) {
-      req.get(function() {
-        renderTemplate('main-template','#chat-example');
-        enterMain();
-        req.get('room', 'body', function() {
-          renderTemplate('chatroom-template','#chat-example-rooms');
-          req.get(':roomid', '#chatroom', function() {
-            enterRoom(req.params['roomid']);
+      req.get('', '#chat-example', function() {
+        req.render('#main-template', function(){
+          enterMain();
+        });
+        req.get('room', function() {
+          req.get(':roomid', '#chat-example-rooms', function() {
+            req.render('#chatroom-template', function(){
+              enterRoom(req.params['roomid']);
+            });
           });
         });
       });
     });
 
-    // get the chat instance from cache or server or create a new one
-    function getChat() {
-      return Chat.all().then(function(chats){
-        return chats.count ? chats.first().keepSynced() : Chat.create(true);
-      });
-    }
-
     // Enter the main UI
     function enterMain() {
-      getChat().then(function(chat){
+      // get the chat instance from cache or server or create a new one
+      Chat.all().then(function(chats){
+        return chats.count ? chats.first().keepSynced() : Chat.create(true);
+      }).then(function(chat){
         chat.save();
         
         // Create a room instance as placeholder for the ViewModel
         var vmRoom = new Room({name: ''});
             
         // Get the rooms
-        var rooms = chat.all(Room);
+        var rooms = chat.get('rooms');
         
         rooms.set('sortByFn',function(item){
           return item.ts;
@@ -133,6 +126,8 @@ script
         rooms.sortOrder = 'asc';
 
         function createNewRoom() {
+          if(vmRoom.name == '') return;
+          
           var newRoom = new Room({name: vmRoom.get('name'), ts: Date.now()});
 
           // add the new room
@@ -154,12 +149,10 @@ script
         }
 
         chat.onNewRoom = createNewRoom;
-        chat.onKeyPress = function(el, ev) {
-          if(ev.which === 13) {
-            el.blur(); // to make sure that the ViewModel is updated
-            createNewRoom();
-          }
-        }
+        chat.onKeyPress = Gnd.keypressed().enter(function(evt){
+          evt.target.blur(); // to make sure that the ViewModel is updated
+          createNewRoom();
+        });
 
         // Create a ViewModel and bind it to the dom
         var viewModel = new Gnd.ViewModel('#main', {
@@ -201,12 +194,10 @@ script
 
       // Create event handlers
       room.onSubmit = sendMessage;
-      room.onKeyPress = function(el, ev) {
-        if(ev.which === 13) {
-          el.blur(); // to make sure that the ViewModel is updated
+      room.onKeyPress = Gnd.keypressed().enter(function(evt){
+          evt.target.blur(); // to make sure that the ViewModel is updated
           sendMessage();
-        }
-      }
+      });
 
       // Create a ViewModel and bind it to the dom
       var viewModel = new Gnd.ViewModel('#chatroom', {
