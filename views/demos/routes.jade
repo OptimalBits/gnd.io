@@ -3,48 +3,44 @@ script
     curl = {
       packages: {
         'ground': {
-          path: '/lib/ground/dist',
+          path: '/lib',
           main: 'gnd',
           lib: ''
         },
-      },
-      paths : {
-        underscore : 'https://raw.github.com/amdjs/underscore/master/underscore-min'
       }
     };
-script(src="/lib/ground/third/curl.js")
+script(src="/lib/third/curl.js")
+script(src="/lib/third/underscore.js")
+
 script(id="demo-list-js")
-    curl(['underscore'], function(_){
-      curl(['ground'], function(gnd){
+  curl(['ground'], function(Gnd){
+    Gnd.Route.listen(function(req) {          
+      req.get('','#main',function() {
         
-        Gnd.use('template', _.template);
-      
-        Gnd.Route.listen(function(req) {          
-          req.get('','#main',function() {
+        req
+          .load('/demos/routes/data/fauna.json')
+          .render('/demos/routes/templates/fauna.tmpl')
+          .enter(function(el){$(el).show('fast')})
         
+          // Family
+          req.get(':family', '#family', function() { // ':family' is a parameter
             req
-              .load('/demos/routes/data/fauna.json')
-              .render('/demos/routes/templates/fauna.tmpl')
-              .enter(function(el){$(el).show('fast')})
-        
-            // Family
-            req.get(':family', '#family', function() { // ':family' is a parameter
-              req
-                .load('/demos/routes/data/families/' + req.params['family'] + '.json')
-                .render('/demos/routes/templates/family.tmpl')
-                .enter(function(el){$(el).show('slow')})
-                .exit(function(el, done){$(el).hide('fadeOut', done)})
+              .load('/demos/routes/data/families/' + req.params['family'] + '.json')
+              .render('/demos/routes/templates/family.tmpl')
+              .enter(function(el){$(el).show('slow')})
+              .exit(function(el, done){$(el).hide('fadeOut', done)})
        
-              // Animal
-              req.get(':animal', '#animal', function() { // ':animal' is a parameter
-                req
-                  .load('/demos/routes/data/families/' + req.params['family'] + '/' +req.params['animal'] + '.json')
-                  .render('/demos/routes/templates/animal.tmpl')
-                  .enter(function(el){$(el).show('fadeIn')})
-                  .exit(function(el, done){$(el).hide(done)})
-              });
+            // Animal
+            req.get(':animal', '#animal', function() { // ':animal' is a parameter
+              req
+                .load('/demos/routes/data/families/' + 
+                  req.params['family'] + '/' + 
+                  req.params['animal'] + '.json')
+                .render('/demos/routes/templates/animal.tmpl')
+                .enter(function(el){$(el).show('fadeIn')})
+                .exit(function(el, done){$(el).hide(done)})
             });
-          })
+          });
         })
       })
     })
