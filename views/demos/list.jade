@@ -44,7 +44,7 @@ script(id="demo-list-js")
       var Movie = Gnd.Model.extend('movies');
       
       // add custom handlers to the library
-      var library = new Library({
+      var library = Library.create({
         filterByGenreHandler : function(node,evt){
           var genre = node.dataset.genre;
           this.movies.set('filterFn',function(item){
@@ -89,7 +89,7 @@ script(id="demo-list-js")
       
       // Create all model movies with a custom remove handler
       var movies = _.map(moviesData , function(data){
-        return new Movie(_.extend(data, {
+        return Movie.create(_.extend(data, {
           removeHandler : function(){
             library.movies.remove(this.id());
           }
