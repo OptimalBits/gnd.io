@@ -5,7 +5,7 @@ var Gnd = require('gnd');
 var cabinet = require('cabinet');
 
 var express = require('express'),
-    request = require('request'),
+    fs = require('fs'),
     md = require("node-markdown").Markdown,
     app = express.createServer(),
     sio = require('socket.io').listen(app),
@@ -37,15 +37,14 @@ app.use(cabinet(Gnd.docs, {
 app.set('views', __dirname + '/views');
 
 app.get('/', function(req, res){
-  request('https://raw.github.com/OptimalBits/ground/master/Readme.md', function(error, response, body){
-    if (!error && response.statusCode == 200) {
-      res.render('index.jade', {content:md(body)});
+  fs.readFile(Gnd.readme, {encoding: 'utf8'}, function(err, text){
+    if(!err){
+      res.render('index.jade', {content:md(text.toString())});
     }else{
-      console.log(error);
-      console.log(response);
+      console.log(err);
       res.send('Error generating page, please try later on...');
     }
-  })
+  });
 });
 
 app.get('/demos/table', function(req,res) {
