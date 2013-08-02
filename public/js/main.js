@@ -1,7 +1,7 @@
 $(function() {
   hljs.initHighlightingOnLoad();
   
-  /* Make menu bar to stay on top when the page scrolldowns */
+  /* Make menu bar to stay on top when the page scrolldown */
   var isAbsolute = true;
   var $menuBar = $('#menu');
   $(window).scroll(function(e,v){
@@ -89,15 +89,20 @@ var menuElement = function(orih1,h1Count) {
     content += '<div class="separator"></div>';
   }
   _this.$el = $('<li>').html(content).appendTo('.mainbar ul').click(function(event){
-    _this.select();
-    scrollTo(_this.$oriEl.offset().top -50);
-    $('.subbar').fadeOut('fast',function(){
-      _this.showSubmenu();
-    })
+    // Redirect to gnd API when we click on Reference
+    if($(this).text() == 'Reference') {
+      window.location = "http://gnd.io/api"
+    } else {
+      _this.select();
+      scrollTo(_this.$oriEl.offset().top -50);
+      $('.subbar').fadeOut('fast',function(){
+        _this.showSubmenu();
+      })
+    }
   })
   
   this.showSubmenu = function(){
-    $('.subbar li').hide();
+    $('.subbar li').hide(); 
     if (_this.subelements.length > 0) {
       $('.subbar').fadeIn('fast');
       for(var i=0;i<_this.subelements.length;i++) {
