@@ -63,36 +63,38 @@ app.get('/demos/chat', function(req,res) {
   res.render('demos/chat/index.jade',{ pretty: true });
 })
 
-// Setup a mongo DB. This is used by the chat example
-var Message = new Schema({
-  _cid: {type: String},
+//
+// Define Models (redundant with chat example, TODO: refactor)
+//
+var MessageSchema = new Gnd.Schema({
   text: {type: String},
   ts: {type: Number}
 });
+var Message = Gnd.Model.extend('messages', MessageSchema);
 
-var Room = new Schema({
-  _cid: {type: String},
+var RoomSchema = new Gnd.Schema({
   name : {type: String},
-  url: {type: String},
   ts: {type: Number},
-  messages :  [{type: Schema.ObjectId, ref: 'Message'}]
+  messages: new Gnd.CollectionSchemaType(Message, 'messages'),
+  url: String
 });
+var Room = Gnd.Model.extend('rooms', RoomSchema);
 
-var Chat = new Schema({
-  _cid: {type: String},
-  rooms :  [{type: Schema.ObjectId, ref: 'Room'}]
+var ChatSchema = new Gnd.Schema({
+  rooms: new Gnd.CollectionSchemaType(Room, 'rooms')
 });
+var Chat = Gnd.Model.extend('chats', ChatSchema);
 
 var models = {
-  messages: mongoose.model('Message', Message),
-  rooms: mongoose.model('Room', Room),
-  chats: mongoose.model('Chat', Chat)
+  messages: Message,
+  rooms: Room,
+  chats: Chat
 };
 
 // Setup mongodb
 mongoose.connect('mongodb://'+mongoHost+'/gndio');
 
-var mongooseStorage = new Gnd.Storage.MongooseStorage(models, mongoose, true);
+var mongooseStorage = new Gnd.Storage.MongooseStorage(models, mongoose);
 var pubClient = redis.createClient(6379, "127.0.0.1"),
     subClient = redis.createClient(6379, "127.0.0.1");
 
