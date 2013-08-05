@@ -22,23 +22,23 @@ script(id="demo-list-js")
           .render('/demos/routes/templates/fauna.tmpl')
           .enter(function(el){$(el).show('fast')})
         
-          // Family
-          req.get(':family', '#family', function() { // ':family' is a parameter
-            req
-              .load('/demos/routes/data/families/' + req.params['family'] + '.json')
-              .render('/demos/routes/templates/family.tmpl')
-              .enter(function(el){$(el).show('slow')})
-              .exit(function(el, done){$(el).hide('fadeOut', done)})
+        // Family
+        req.get(':family', '#family', function() { // ':family' is a parameter
+          req
+            .load('/demos/routes/data/families/' + req.params['family'] + '.json')
+            .render('/demos/routes/templates/family.tmpl')
+            .enter(function(el){$(el).show('slow')})
+            .exit(function(el, done){$(el).hide('fadeOut', done)})
        
-            // Animal
-            req.get(':animal', '#animal', function() { // ':animal' is a parameter
-              req
-                .load('/demos/routes/data/families/' + 
-                  req.params['family'] + '/' + 
-                  req.params['animal'] + '.json')
-                .render('/demos/routes/templates/animal.tmpl')
-                .enter(function(el){$(el).show('fadeIn')})
-                .exit(function(el, done){$(el).hide(done)})
+          // Animal
+          req.get(':animal', '#animal', function() { // ':animal' is a parameter
+            req
+              .load('/demos/routes/data/families/' + 
+                req.params['family'] + '/' + 
+                req.params['animal'] + '.json')
+              .render('/demos/routes/templates/animal.tmpl')
+              .enter(function(el){$(el).show('fadeIn')})
+              .exit(function(el, done){$(el).hide(done)})
             });
           });
         })
