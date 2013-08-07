@@ -14,7 +14,7 @@ script(src="/lib/third/underscore.js")
 
 script(id="demo-list-js")
   curl(['ground'], function(Gnd){
-    Gnd.Route.listen(function(req) {          
+    Gnd.router.listen(function(req) {          
       req.get('','#main',function() {
         
         req

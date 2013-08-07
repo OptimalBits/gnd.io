@@ -92,7 +92,7 @@ script
     //
     // Handle routes
     //
-    Gnd.Route.listen(function(req) {
+    Gnd.router.listen(function(req) {
       req.get('', '#chat-example', function() {
         req.render('#main-template', function(done){
           enterMain(req).then(done);
