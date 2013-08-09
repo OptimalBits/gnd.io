@@ -44,7 +44,7 @@ script(type="text/template", id="chatroom-template")
           input(id="msgbox", type="text", data-bind="value: currentMsg.text", data-event="keypress: room.onKeyPress")
           input(id="submit", type="submit", data-event="click: room.onSubmit",value="Send").btn.btn-small
 
-script
+script(id="chat-code")
   curl(['ground'], function(Gnd){  
     //
     // Establish a socket.io connection.
@@ -204,6 +204,27 @@ script
       }); 
     }
   });
+script
+  $(function(){
+    $('#code-example').text($('#chat-code').text()); // Add javascript code preview
+    $('#code-example-chatroom-tpl').text($.trim($('#chatroom-template').html())); // Add main template code preview
+    $('#code-example-main-tpl').text($.trim($('#main-template').html())); // Add rooms template code preview
+    // In this view we cant have navigation since we are using gnd routes
+    $('.barcontent').html('<ul style="margin:auto"><li style="width: 100%;text-align: center;margin: 0px;"><a href="/">Return to Ground.io</a></li></ul>');
+  })
 h1 Chat Example
 #chat-example
 #chat-example-rooms
+
+h1(style="padding-bottom: 0px;margin-top: 36px;") Javascript code
+p This is where we set the logic of the application.
+pre
+  code(class="javascript",id="code-example")
+h1 Templates
+p This is where we set the html estructure and the bindings.
+h4 Main template
+pre
+  code(class="xml",id="code-example-main-tpl")
+h4 Chatroom template
+pre
+  code(class="xml",id="code-example-chatroom-tpl")
