@@ -7,11 +7,15 @@ script
           main: 'gnd',
           lib: ''
         },
+        paths: {
+          'lodash': '/lib/third/lodash'
+        }
       }
     };
 link(href="/lib/bootstrap/css/bootstrap.min.css",rel="stylesheet",media="screen")
+script(src="/lib/third/lodash.js")
 script(src="/lib/third/curl.js")
-script(src="/lib/third/underscore.js")
+
 script(id="demo-list-js")
     curl(['ground'], function(Gnd){
       // Custom data to add to the list

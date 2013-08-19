@@ -23,7 +23,7 @@ console.log('Using: '+Gnd.lib);
 app.use(cabinet(__dirname + '/public', {
   files: {
     '/lib/gnd.js': Gnd.debug,//Gnd.lib,
-    '/lib/third/underscore.js': Gnd.third.underscore,
+    '/lib/third/lodash.js': Gnd.third.underscore,
     '/lib/third/curl.js': Gnd.third.curl,
   },
 }));
