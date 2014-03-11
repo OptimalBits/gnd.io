@@ -1,230 +1,234 @@
-link(href="/lib/bootstrap/css/bootstrap.min.css",rel="stylesheet",media="screen")
-script(src="/socket.io/socket.io.js")
-script
-  curl = {
-    packages: {
-      'ground': {
-         path: '/lib',
-        main: 'gnd',
-        lib: ''
+extends ../../layout
+
+block content
+  link(href="/lib/bootstrap/css/bootstrap.min.css",rel="stylesheet",media="screen")
+  script(src="/socket.io/socket.io.js")
+  script
+    curl = {
+      packages: {
+        'ground': {
+           path: '/lib',
+          main: 'gnd',
+          lib: ''
+        }
       }
-    }
-  };
+    };
 
-script(src="/lib/third/lodash.js")
-script(src="/lib/third/curl.js")
+  script(src="/lib/third/lodash.js")
+  script(src="/lib/third/curl.js")
 
-<!-- Templates -->
-script(type="text/template",id="main-template")
-  #main
-    .form-horizontal
-      .control-group
-        p(style="padding:0px")
-          label(class="control-label", for="roomname") Room name:
-        .controls
-          input(type="text", id="roomname", placeholder="Room name",data-bind="value: newRoom.name", data-event="keypress: chat.onKeyPress")
-          input(id="submit", type="submit", class="btn btn-small", value="Create new Chat Room", data-event="click: chat.onNewRoom")
-    .navbar
-      .navbar-inner(style="display: inline-block;")
-        ul(id="link",class="nav",style="padding:0px;margin:0px;")
-          li(data-each="chat.rooms: room")
-            a(data-bind="attr: { href: room.url, title: room.name | escape}")
-              span(data-bind="text: room.name | escape")
-script(type="text/template", id="chatroom-template")
-  #chatroom
-    h3(data-bind="text:room.name | escape", style="padding-bottom: 0px;")
-    #history.well(style="overflow: auto;height: 250px;")
-      p(data-each="room.messages : message",style="margin: 0px;color: #48484c;text-shadow: none;")
-        small(data-bind="text: message.ts | timeFormatter")
-        small &nbsp;:&nbsp;
-        small(data-bind="text: message.text | escape")
-    .form-horizontal
-      .control-group
-        .controls(style="margin: 0px;")
-          input(id="msgbox", type="text", data-bind="value: currentMsg.text", data-event="keypress: room.onKeyPress")
-          input(id="submit", type="submit", data-event="click: room.onSubmit",value="Send").btn.btn-small
+  <!-- Templates -->
+  script(type="text/template",id="main-template")
+    #main
+      .form-horizontal
+        .control-group
+          p(style="padding:0px")
+            label(class="control-label", for="roomname") Room name:
+          .controls
+            input(type="text", id="roomname", placeholder="Room name",data-bind="value: newRoom.name", data-event="keypress: chat.onKeyPress")
+            input(id="submit", type="submit", class="btn btn-small", value="Create new Chat Room", data-event="click: chat.onNewRoom")
+      .navbar
+        .navbar-inner(style="display: inline-block;")
+          ul(id="link",class="nav",style="padding:0px;margin:0px;")
+            li(data-each="chat.rooms: room")
+              a(data-bind="attr: { href: room.url, title: room.name | escape}")
+                span(data-bind="text: room.name | escape")
+  script(type="text/template", id="chatroom-template")
+    #chatroom
+      h3(data-bind="text:room.name | escape", style="padding-bottom: 0px;")
+      #history.well(style="overflow: auto;height: 250px;")
+        p(data-each="room.messages : message",style="margin: 0px;color: #48484c;text-shadow: none;")
+          small(data-bind="text: message.ts | timeFormatter")
+          small &nbsp;:&nbsp;
+          small(data-bind="text: message.text | escape")
+      .form-horizontal
+        .control-group
+          .controls(style="margin: 0px;")
+            input(id="msgbox", type="text", data-bind="value: currentMsg.text", data-event="keypress: room.onKeyPress")
+            input(id="submit", type="submit", data-event="click: room.onSubmit",value="Send").btn.btn-small
 
-script(id="chat-code")
-  curl(['ground'], function(Gnd){  
-    //
-    // Establish a socket.io connection.
-    //
-    var socket = io.connect();
+  script(id="chat-code")
+    curl(['ground'], function(Gnd){  
+      //
+      // Establish a socket.io connection.
+      //
+      var socket = io.connect();
 
-    //
-    // Configure the sync manager.
-    //
-    Gnd.use.syncManager(socket);
+      //
+      // Configure the sync manager.
+      //
+      Gnd.use.syncManager(socket);
 
-    //
-    // Create Local and Remote storages
-    //
-    var storageLocal = new Gnd.Storage.Local();
-    var storageSocket = new Gnd.Storage.Socket(socket);
+      //
+      // Create Local and Remote storages
+      //
+      var storageLocal = new Gnd.Storage.Local();
+      var storageSocket = new Gnd.Storage.Socket(socket);
     
-    //
-    // Configure the synchronization queue.
-    //
-    Gnd.use.storageQueue(storageLocal, storageSocket);
+      //
+      // Configure the synchronization queue.
+      //
+      Gnd.use.storageQueue(storageLocal, storageSocket);
     
-    //
-    // Define Models
-    //
-    var MessageSchema = new Gnd.Schema({
-      text: {type: String},
-      ts: {type: Number}
-    });
-    var Message = Gnd.Model.extend('messages', MessageSchema);
+      //
+      // Define Models
+      //
+      var MessageSchema = new Gnd.Schema({
+        text: {type: String},
+        ts: {type: Number}
+      });
+      var Message = Gnd.Model.extend('messages', MessageSchema);
 
-    var RoomSchema = new Gnd.Schema({
-      name : {type: String},
-      ts: {type: Number},
-      messages: new Gnd.CollectionSchemaType(Message, 'messages'),
-      url: String
-    });
-    var Room = Gnd.Model.extend('rooms', RoomSchema);
+      var RoomSchema = new Gnd.Schema({
+        name : {type: String},
+        ts: {type: Number},
+        messages: new Gnd.CollectionSchemaType(Message, 'messages'),
+        url: String
+      });
+      var Room = Gnd.Model.extend('rooms', RoomSchema);
 
-    var ChatSchema = new Gnd.Schema({
-      rooms: new Gnd.CollectionSchemaType(Room, 'rooms')
-    });
-    var Chat = Gnd.Model.extend('chats', ChatSchema);
+      var ChatSchema = new Gnd.Schema({
+        rooms: new Gnd.CollectionSchemaType(Room, 'rooms')
+      });
+      var Chat = Gnd.Model.extend('chats', ChatSchema);
     
-    //
-    // Handle routes
-    //
-    Gnd.router.listen(function(req) {
-      req.get('', '#chat-example', function() {
-        req.render('#main-template', function(done){
-          enterMain(req).then(done);
-        });
-        req.get('room', function() {
-          req.get(':roomid', '#chat-example-rooms', function() {
-            req.render('#chatroom-template', function(){
-              enterRoom(req.params['roomid']);
+      //
+      // Handle routes
+      //
+      Gnd.router.listen(function(req) {
+        req.get('', '#chat-example', function() {
+          req.render('#main-template', function(done){
+            enterMain(req).then(done);
+          });
+          req.get('room', function() {
+            req.get(':roomid', '#chat-example-rooms', function() {
+              req.render('#chatroom-template', function(){
+                enterRoom(req.params['roomid']);
+              });
             });
           });
         });
       });
-    });
 
-    // Enter the main UI
-    function enterMain(req) {
+      // Enter the main UI
+      function enterMain(req) {
       
-      return Chat.all().then(function(chats){
+        return Chat.all().then(function(chats){
       
-        // get the chat instance from cache or server or create a new one
-        var chat = chats.count ? chats.first().keepSynced() : Chat.create(true);
-        chat.save(); // SHOULD NOT BE NECESSARY
+          // get the chat instance from cache or server or create a new one
+          var chat = chats.count ? chats.first().keepSynced() : Chat.create(true);
+          chat.save(); // SHOULD NOT BE NECESSARY
         
-        // Create a room instance as placeholder for the ViewModel
-        var vmRoom = new Room({name: ''});
+          // Create a room instance as placeholder for the ViewModel
+          var vmRoom = new Room({name: ''});
         
-        function createNewRoom() {
-          if(Gnd.Util.trim(vmRoom.name) == '') return;
+          function createNewRoom() {
+            if(Gnd.Util.trim(vmRoom.name) == '') return;
           
-          var newRoom = new Room({name: vmRoom.get('name'), ts: Date.now()});
+            var newRoom = new Room({name: vmRoom.get('name'), ts: Date.now()});
 
-          // add the new room
-          chat.get('rooms').add(newRoom);
+            // add the new room
+            chat.get('rooms').add(newRoom);
 
-          // Wait until we have a server id
-          newRoom.on('id', function(id){
-            // construct the url
-            newRoom.set('url', '#/room/' + id);
-            newRoom.release();
-            req.redirect(newRoom.url);
+            // Wait until we have a server id
+            newRoom.on('id', function(id){
+              // construct the url
+              newRoom.set('url', '#/room/' + id);
+              newRoom.release();
+              req.redirect(newRoom.url);
+            });
+
+            vmRoom.set('name', '');
+            // Focus on inputbox
+            Gnd.Util.nextTick(function() {
+              Gnd.$('#roomname')[0].focus();
+            });
+          }
+
+          chat.onNewRoom = createNewRoom;
+          chat.onKeyPress = Gnd.keypressed().enter(function(evt){
+            evt.target.blur(); // to make sure that the ViewModel is updated
+            createNewRoom();
           });
 
-          vmRoom.set('name', '');
-          // Focus on inputbox
+          // Create a ViewModel and bind it to the dom
+          var viewModel = new Gnd.ViewModel('#main', {
+            newRoom: vmRoom,
+            chat: chat
+          }, {escape: _.escape});  
+        });
+      }
+
+      // Enter the chat room
+      function enterRoom(roomId) {
+        // Find the Room room
+        var room = Room.findById(roomId, true);
+
+        // Create a message instance placeholder for the ViewModel
+        var currentMsg = new Message({text: ''});
+
+        function sendMessage() {
+          if(Gnd.Util.trim(currentMsg.text) == '') return;
+        
+          var newMsg = 
+            new Message({text : currentMsg.get('text'), ts: Date.now()}); 
+        
+          room.get('messages').add(newMsg.autorelease());
+
+          // Clear current message text
+          currentMsg.set('text', '');
+
+          // Set focus to inputbox
           Gnd.Util.nextTick(function() {
-            Gnd.$('#roomname')[0].focus();
+            Gnd.$('#msgbox')[0].focus();
           });
-        }
 
-        chat.onNewRoom = createNewRoom;
-        chat.onKeyPress = Gnd.keypressed().enter(function(evt){
-          evt.target.blur(); // to make sure that the ViewModel is updated
-          createNewRoom();
+          // move the history chat to the bottom
+          Gnd.$('#history')[0].scrollTop = 10000;
+        };
+
+        // Create event handlers
+        room.onSubmit = sendMessage;
+        room.onKeyPress = Gnd.keypressed().enter(function(evt){
+            evt.target.blur(); // to make sure that the ViewModel is updated
+            sendMessage();
         });
 
         // Create a ViewModel and bind it to the dom
-        var viewModel = new Gnd.ViewModel('#main', {
-          newRoom: vmRoom,
-          chat: chat
-        }, {escape: _.escape});  
-      });
-    }
+        var viewModel = new Gnd.ViewModel('#chatroom', {
+            currentMsg: currentMsg,
+            room: room
+          }, {
+            timeFormatter: function(timestamp){
+              var time = new Date(timestamp);
+              return '[' + time.toLocaleString() + ']';
+            },
+            escape: _.escape
+        }); 
+      }
+    });
+  script
+    $(function(){
+      $('#code-example').text($('#chat-code').text()); // Add javascript code preview
+      $('#code-example-chatroom-tpl').text($.trim($('#chatroom-template').html())); // Add main template code preview
+      $('#code-example-main-tpl').text($.trim($('#main-template').html())); // Add rooms template code preview
+      // In this view we cant have navigation since we are using gnd routes
+      $('.barcontent').html('<ul style="margin:auto"><li style="width: 100%;text-align: center;margin: 0px;"><a href="/">Return to Ground.io</a></li></ul>');
+    })
+  h1 Chat Example
+  #chat-example
+  #chat-example-rooms
 
-    // Enter the chat room
-    function enterRoom(roomId) {
-      // Find the Room room
-      var room = Room.findById(roomId, true);
-
-      // Create a message instance placeholder for the ViewModel
-      var currentMsg = new Message({text: ''});
-
-      function sendMessage() {
-        if(Gnd.Util.trim(currentMsg.text) == '') return;
-        
-        var newMsg = 
-          new Message({text : currentMsg.get('text'), ts: Date.now()}); 
-        
-        room.get('messages').add(newMsg.autorelease());
-
-        // Clear current message text
-        currentMsg.set('text', '');
-
-        // Set focus to inputbox
-        Gnd.Util.nextTick(function() {
-          Gnd.$('#msgbox')[0].focus();
-        });
-
-        // move the history chat to the bottom
-        Gnd.$('#history')[0].scrollTop = 10000;
-      };
-
-      // Create event handlers
-      room.onSubmit = sendMessage;
-      room.onKeyPress = Gnd.keypressed().enter(function(evt){
-          evt.target.blur(); // to make sure that the ViewModel is updated
-          sendMessage();
-      });
-
-      // Create a ViewModel and bind it to the dom
-      var viewModel = new Gnd.ViewModel('#chatroom', {
-          currentMsg: currentMsg,
-          room: room
-        }, {
-          timeFormatter: function(timestamp){
-            var time = new Date(timestamp);
-            return '[' + time.toLocaleString() + ']';
-          },
-          escape: _.escape
-      }); 
-    }
-  });
-script
-  $(function(){
-    $('#code-example').text($('#chat-code').text()); // Add javascript code preview
-    $('#code-example-chatroom-tpl').text($.trim($('#chatroom-template').html())); // Add main template code preview
-    $('#code-example-main-tpl').text($.trim($('#main-template').html())); // Add rooms template code preview
-    // In this view we cant have navigation since we are using gnd routes
-    $('.barcontent').html('<ul style="margin:auto"><li style="width: 100%;text-align: center;margin: 0px;"><a href="/">Return to Ground.io</a></li></ul>');
-  })
-h1 Chat Example
-#chat-example
-#chat-example-rooms
-
-h1(style="padding-bottom: 0px;margin-top: 36px;") Javascript code
-p This is where we set the logic of the application.
-pre
-  code(class="javascript",id="code-example")
-h1 Templates
-p This is where we set the html estructure and the bindings.
-h4 Main template
-pre
-  code(class="xml",id="code-example-main-tpl")
-h4 Chatroom template
-pre
-  code(class="xml",id="code-example-chatroom-tpl")
+  h1(style="padding-bottom: 0px;margin-top: 36px;") Javascript code
+  p This is where we set the logic of the application.
+  pre
+    code(class="javascript",id="code-example")
+  h1 Templates
+  p This is where we set the html estructure and the bindings.
+  h4 Main template
+  pre
+    code(class="xml",id="code-example-main-tpl")
+  h4 Chatroom template
+  pre
+    code(class="xml",id="code-example-chatroom-tpl")
+    

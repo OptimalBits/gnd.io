@@ -1,61 +1,64 @@
-link(rel="stylesheet", type="text/css", href="/css/demos.css")
-script
-    curl = {
-      packages: {
-        'ground': {
-          path: '/lib',
-          main: 'gnd',
-          lib: ''
-        },
-      }
-    };
-    
-script(src="/lib/third/lodash.js")
-script(src="/lib/third/curl.js")
+extends ../layout
 
-script(id="demo-list-js")
-  curl(['ground'], function(Gnd){
-    Gnd.router.listen(function(req) {          
-      req.get('','#main',function() {
+block content
+  link(rel="stylesheet", type="text/css", href="/css/demos.css")
+  script
+      curl = {
+        packages: {
+          'ground': {
+            path: '/lib',
+            main: 'gnd',
+            lib: ''
+          },
+        }
+      };
+    
+  script(src="/lib/third/lodash.js")
+  script(src="/lib/third/curl.js")
+
+  script(id="demo-list-js")
+    curl(['ground'], function(Gnd){
+      Gnd.router.listen(function(req) {          
+        req.get('','#main',function() {
         
-        req
-          .load('/demos/routes/data/fauna.json')
-          .render('/demos/routes/templates/fauna.tmpl')
-          .enter(function(el){$(el).show('fast')})
-        
-        // Family
-        req.get(':family', '#family', function() { // ':family' is a parameter
           req
-            .load('/demos/routes/data/families/' + req.params['family'] + '.json')
-            .render('/demos/routes/templates/family.tmpl')
-            .enter(function(el){$(el).show('slow')})
-            .exit(function(el, done){$(el).hide('fadeOut', done)})
-       
-          // Animal
-          req.get(':animal', '#animal', function() { // ':animal' is a parameter
+            .load('/demos/routes/data/fauna.json')
+            .render('/demos/routes/templates/fauna.tmpl')
+            .enter(function(el){$(el).show('fast')})
+        
+          // Family
+          req.get(':family', '#family', function() { // ':family' is a parameter
             req
-              .load('/demos/routes/data/families/' + 
-                req.params['family'] + '/' + 
-                req.params['animal'] + '.json')
-              .render('/demos/routes/templates/animal.tmpl')
-              .enter(function(el){$(el).show('fadeIn')})
-              .exit(function(el, done){$(el).hide(done)})
+              .load('/demos/routes/data/families/' + req.params['family'] + '.json')
+              .render('/demos/routes/templates/family.tmpl')
+              .enter(function(el){$(el).show('slow')})
+              .exit(function(el, done){$(el).hide('fadeOut', done)})
+       
+            // Animal
+            req.get(':animal', '#animal', function() { // ':animal' is a parameter
+              req
+                .load('/demos/routes/data/families/' + 
+                  req.params['family'] + '/' + 
+                  req.params['animal'] + '.json')
+                .render('/demos/routes/templates/animal.tmpl')
+                .enter(function(el){$(el).show('fadeIn')})
+                .exit(function(el, done){$(el).hide(done)})
+              });
             });
-          });
+          })
         })
       })
+  script
+  script
+    $(function(){
+     // $('.barcontent').html('<ul style="margin:auto"><li style="width: 100%;text-align: center;margin: 0px;"><a href="/">Return to Ground.io</a></li></ul>'); // Fill the empty menubar
+      $('#code-example').text($('#demo-list-js').text()); // insert the code preview
     })
-script
-script
-  $(function(){
-   // $('.barcontent').html('<ul style="margin:auto"><li style="width: 100%;text-align: center;margin: 0px;"><a href="/">Return to Ground.io</a></li></ul>'); // Fill the empty menubar
-    $('#code-example').text($('#demo-list-js').text()); // insert the code preview
-  })
-h1 Routing example
-.routes-example
-  p This example demonstrates how Ground's hierarchical routing works</p>
-  div(id="main")
-  div(style="float:none;clear:both;padding-top:20px;")
-h1 Code example
-pre 
- code(id="code-example")
+  h1 Routing example
+  .routes-example
+    p This example demonstrates how Ground's hierarchical routing works</p>
+    div(id="main")
+    div(style="float:none;clear:both;padding-top:20px;")
+  h1 Code example
+  pre 
+   code(id="code-example")

@@ -1,148 +1,151 @@
-link(rel="stylesheet", type="text/css", href="/css/demos.css")
-script
-    curl = {
-      packages: {
-        'ground': {
-          path: '/lib',
-          main: 'gnd',
-          lib: ''
-        },
-        paths: {
-          'lodash': '/lib/third/lodash'
-        }
-      }
-    };
-link(href="/lib/bootstrap/css/bootstrap.min.css",rel="stylesheet",media="screen")
-script(src="/lib/third/lodash.js")
-script(src="/lib/third/curl.js")
+extends ../layout
 
-script(id="demo-list-js")
-    curl(['ground'], function(Gnd){
-      // Custom data to add to the list
-      var baseImgURL = '/demos/list/img/';
-      var moviesData = [
-        { title : 'Django Unchained',
-          genre : 'Action',
-          img   : baseImgURL + 'MV5BMjIyNTQ5NjQ1OV5BMl5BanBnXkFtZTcwODg1MDU4OA@@._V1._SX54_CR0,0,54,74_.jpg'},
-        { title : 'The Hobbit: An Unexpected Journey ',
-          genre : 'Adventures',
-          img   : baseImgURL + 'MV5BMTkzMTUwMDAyMl5BMl5BanBnXkFtZTcwMDIwMTQ1OA@@._V1._SX54_CR0,0,54,74_.jpg'},
-        { title : 'Pitch Perfect',
-          genre : 'Comedy',
-          img   : baseImgURL + 'MV5BMTcyMTMzNzE5N15BMl5BanBnXkFtZTcwNzg5NjM5Nw@@._V1._SX54_CR0,0,54,74_.jpg'},
-        { title : 'Les Misérables',
-          genre : 'Drama',
-          img   : baseImgURL + 'MV5BMTQ4NDI3NDg4M15BMl5BanBnXkFtZTcwMjY5OTI1OA@@._V1._SX54_CR0,0,54,74_.jpg'},
-        { title : 'John Dies at the End ',
-          genre : 'Horror',
-          img   : baseImgURL + 'MV5BMTUyNzIyNzc0MV5BMl5BanBnXkFtZTcwOTM5ODg1OA@@._V1._SX54_CR0,0,54,74_.jpg'},
-        { title : 'Cloud Atlas',
-          genre : 'Sci-Fi',
-          img   : baseImgURL + 'MV5BMTczMTgxMjc4NF5BMl5BanBnXkFtZTcwNjM5MTA2OA@@._V1._SX54_CR0,0,54,74_.jpg'},
-        { title : 'The Dark Knight Rises',
-          genre :  'Action',
-          img   : baseImgURL + 'MV5BMTk4ODQzNDY3Ml5BMl5BanBnXkFtZTcwODA0NTM4Nw@@._V1._SX54_CR0,0,54,74_.jpg'}
-                        ];
-      // Models                 
-      var Library = Gnd.Model.extend('library');
-      var Movie = Gnd.Model.extend('movies');
-      
-      // add custom handlers to the library
-      var library = Library.create({
-        filterByGenreHandler : function(node,evt){
-          var genre = node.dataset.genre;
-          this.movies.set('filterFn',function(item){
-            return item.genre == genre;
-          })
-        },
-        showAllHandler : function(node,evt){
-          library.movies.set('filterFn',function(item){
-            return true;
-          });
-        },
-        sortTitleHandler : function(node,evt){
-          library.movies.set('sortByFn',function(item){
-            return item.title.toLowerCase();
-          })
-          if(library.movies.sortOrder == 'desc') {
-            library.movies.sortOrder = 'asc';
-          } else {
-            library.movies.sortOrder = 'desc';
+block content
+  link(rel="stylesheet", type="text/css", href="/css/demos.css")
+  script
+      curl = {
+        packages: {
+          'ground': {
+            path: '/lib',
+            main: 'gnd',
+            lib: ''
+          },
+          paths: {
+            'lodash': '/lib/third/lodash'
           }
-        },
-        inputSearchHandler : function(node,evt){
-          library.movies.set('filterFn', function(item){
-            return Gnd.Util.searchFilter(item,node.value.toLowerCase(),['title']);
-          })
-        },
-        addMovieHandler : function(node,evt){
-          var name = Gnd.$('#name')[0];
-          var genre = Gnd.$('#genre')[0];
-          var movie = new Movie( { 
-            title:name.value,
-            genre:genre.value,
-            removeHandler:function(){
-              library.movies.remove(this.id())
+        }
+      };
+  link(href="/lib/bootstrap/css/bootstrap.min.css",rel="stylesheet",media="screen")
+  script(src="/lib/third/lodash.js")
+  script(src="/lib/third/curl.js")
+
+  script(id="demo-list-js")
+      curl(['ground'], function(Gnd){
+        // Custom data to add to the list
+        var baseImgURL = '/demos/list/img/';
+        var moviesData = [
+          { title : 'Django Unchained',
+            genre : 'Action',
+            img   : baseImgURL + 'MV5BMjIyNTQ5NjQ1OV5BMl5BanBnXkFtZTcwODg1MDU4OA@@._V1._SX54_CR0,0,54,74_.jpg'},
+          { title : 'The Hobbit: An Unexpected Journey ',
+            genre : 'Adventures',
+            img   : baseImgURL + 'MV5BMTkzMTUwMDAyMl5BMl5BanBnXkFtZTcwMDIwMTQ1OA@@._V1._SX54_CR0,0,54,74_.jpg'},
+          { title : 'Pitch Perfect',
+            genre : 'Comedy',
+            img   : baseImgURL + 'MV5BMTcyMTMzNzE5N15BMl5BanBnXkFtZTcwNzg5NjM5Nw@@._V1._SX54_CR0,0,54,74_.jpg'},
+          { title : 'Les Misérables',
+            genre : 'Drama',
+            img   : baseImgURL + 'MV5BMTQ4NDI3NDg4M15BMl5BanBnXkFtZTcwMjY5OTI1OA@@._V1._SX54_CR0,0,54,74_.jpg'},
+          { title : 'John Dies at the End ',
+            genre : 'Horror',
+            img   : baseImgURL + 'MV5BMTUyNzIyNzc0MV5BMl5BanBnXkFtZTcwOTM5ODg1OA@@._V1._SX54_CR0,0,54,74_.jpg'},
+          { title : 'Cloud Atlas',
+            genre : 'Sci-Fi',
+            img   : baseImgURL + 'MV5BMTczMTgxMjc4NF5BMl5BanBnXkFtZTcwNjM5MTA2OA@@._V1._SX54_CR0,0,54,74_.jpg'},
+          { title : 'The Dark Knight Rises',
+            genre :  'Action',
+            img   : baseImgURL + 'MV5BMTk4ODQzNDY3Ml5BMl5BanBnXkFtZTcwODA0NTM4Nw@@._V1._SX54_CR0,0,54,74_.jpg'}
+                          ];
+        // Models                 
+        var Library = Gnd.Model.extend('library');
+        var Movie = Gnd.Model.extend('movies');
+      
+        // add custom handlers to the library
+        var library = Library.create({
+          filterByGenreHandler : function(node,evt){
+            var genre = node.dataset.genre;
+            this.movies.set('filterFn',function(item){
+              return item.genre == genre;
+            })
+          },
+          showAllHandler : function(node,evt){
+            library.movies.set('filterFn',function(item){
+              return true;
+            });
+          },
+          sortTitleHandler : function(node,evt){
+            library.movies.set('sortByFn',function(item){
+              return item.title.toLowerCase();
+            })
+            if(library.movies.sortOrder == 'desc') {
+              library.movies.sortOrder = 'asc';
+            } else {
+              library.movies.sortOrder = 'desc';
             }
-          })
-          library.movies.add(movie)
-          name.value = '';
-          genre.value = '';
-        }
-      });
-      
-      // Create all model movies with a custom remove handler
-      var movies = _.map(moviesData , function(data){
-        return Movie.create(_.extend(data, {
-          removeHandler : function(){
-            library.movies.remove(this.id());
+          },
+          inputSearchHandler : function(node,evt){
+            library.movies.set('filterFn', function(item){
+              return Gnd.Util.searchFilter(item,node.value.toLowerCase(),['title']);
+            })
+          },
+          addMovieHandler : function(node,evt){
+            var name = Gnd.$('#name')[0];
+            var genre = Gnd.$('#genre')[0];
+            var movie = new Movie( { 
+              title:name.value,
+              genre:genre.value,
+              removeHandler:function(){
+                library.movies.remove(this.id())
+              }
+            })
+            library.movies.add(movie)
+            name.value = '';
+            genre.value = '';
           }
-        }))
-      });
-  
-      // Create and add the collection to the library
-      library.movies = new Gnd.Collection(Movie, {nosync: true}, library, movies);
+        });
       
-      // bind the collection to the HMTL
-      var viewModel = 
-        new Gnd.ViewModel('#myLibrary', {list: library}, {escape: _.escape});
-    })
+        // Create all model movies with a custom remove handler
+        var movies = _.map(moviesData , function(data){
+          return Movie.create(_.extend(data, {
+            removeHandler : function(){
+              library.movies.remove(this.id());
+            }
+          }))
+        });
+  
+        // Create and add the collection to the library
+        library.movies = new Gnd.Collection(Movie, {nosync: true}, library, movies);
+      
+        // bind the collection to the HMTL
+        var viewModel = 
+          new Gnd.ViewModel('#myLibrary', {list: library}, {escape: _.escape});
+      })
 
-script
-  $(function(){
-    $('#code-example').text($('#demo-list-js').text()); // Add javascript code preview
-    $('#code-example-html').text($.trim($('#myLibrary').html())); // Add html code preview
-   // $('.barcontent').html('<ul style="margin:auto"><li style="width: 100%;text-align: center;margin: 0px;"><a href="/">Return to Ground.io</a></li></ul>'); // Fill the empty menubar
-  })
-h1 List Example
-div(class="container")
-  div(class="row")
-    p This example shows a ViewModel working with a html list.
-    div(id="myLibrary")
-      div
-        input(data-event="keyup: list.inputSearchHandler",class="inputSearch",type="text",placeholder="Search...")
-      button(data-event="click: list.sortTitleHandler", class="sortTitle btn") Sort by title
-      button(data-event="click: list.showAllHandler", class="showAll btn" ,style="margin: 0px 6px;") Show All
-      p(style="margin-top:6px")
-        button(data-event="click: list.filterByGenreHandler", data-genre="Action", class="showAction btn btn-mini") Show Action
-        button(data-event="click: list.filterByGenreHandler", data-genre="Horror", class="showAction btn btn-mini") Show Horror
-        button(data-event="click: list.filterByGenreHandler", data-genre="Comedy", class="showAction btn btn-mini") Show Comedy
-        button(data-event="click: list.filterByGenreHandler", data-genre="Drama", class="showAction btn btn-mini") Show Drama
-        button(data-event="click: list.filterByGenreHandler", data-genre="Sci-Fi", class="showAction btn btn-mini") Show Sci-Fi
-      ul(class="nav nav-tabs nav-stacked",style="padding:0")
-        li(data-each="list.movies : movie")
-            div(class="media")
-              a(class="pull-left",href="#")
-                img(class="media-object",data-src="holder.js/64x64",alt="64x64",style="width: 64px; height: 64px;",data-bind="src:movie.img")
-              div(class="media-body")
-                strong
-                 h4(class="media-heading",data-bind="text:movie.title | escape")
-                span(data-bind="text:movie.genre",class="muted")
-h1(style="padding-bottom: 0px;margin-top: 36px;") Javascript code
-p This is where we set the logic of the application.
-pre
-  code(class="javascript",id="code-example")
-h1 Html code
-p This is where we set the html estructure and the bindings.
-pre
-  code(class="xml",id="code-example-html")
+  script
+    $(function(){
+      $('#code-example').text($('#demo-list-js').text()); // Add javascript code preview
+      $('#code-example-html').text($.trim($('#myLibrary').html())); // Add html code preview
+     // $('.barcontent').html('<ul style="margin:auto"><li style="width: 100%;text-align: center;margin: 0px;"><a href="/">Return to Ground.io</a></li></ul>'); // Fill the empty menubar
+    })
+  h1 List Example
+  div(class="container")
+    div(class="row")
+      p This example shows a ViewModel working with a html list.
+      div(id="myLibrary")
+        div
+          input(data-event="keyup: list.inputSearchHandler",class="inputSearch",type="text",placeholder="Search...")
+        button(data-event="click: list.sortTitleHandler", class="sortTitle btn") Sort by title
+        button(data-event="click: list.showAllHandler", class="showAll btn" ,style="margin: 0px 6px;") Show All
+        p(style="margin-top:6px")
+          button(data-event="click: list.filterByGenreHandler", data-genre="Action", class="showAction btn btn-mini") Show Action
+          button(data-event="click: list.filterByGenreHandler", data-genre="Horror", class="showAction btn btn-mini") Show Horror
+          button(data-event="click: list.filterByGenreHandler", data-genre="Comedy", class="showAction btn btn-mini") Show Comedy
+          button(data-event="click: list.filterByGenreHandler", data-genre="Drama", class="showAction btn btn-mini") Show Drama
+          button(data-event="click: list.filterByGenreHandler", data-genre="Sci-Fi", class="showAction btn btn-mini") Show Sci-Fi
+        ul(class="nav nav-tabs nav-stacked",style="padding:0")
+          li(data-each="list.movies : movie")
+              div(class="media")
+                a(class="pull-left",href="#")
+                  img(class="media-object",data-src="holder.js/64x64",alt="64x64",style="width: 64px; height: 64px;",data-bind="src:movie.img")
+                div(class="media-body")
+                  strong
+                   h4(class="media-heading",data-bind="text:movie.title | escape")
+                  span(data-bind="text:movie.genre",class="muted")
+  h1(style="padding-bottom: 0px;margin-top: 36px;") Javascript code
+  p This is where we set the logic of the application.
+  pre
+    code(class="javascript",id="code-example")
+  h1 Html code
+  p This is where we set the html estructure and the bindings.
+  pre
+    code(class="xml",id="code-example-html")

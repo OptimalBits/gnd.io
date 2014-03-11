@@ -1,19 +1,19 @@
 {
- "name": "gnd.io", 
- "version": "0.0.1",
- "private": true,
- "dependencies": {
-    "underscore": "*",
-    "socket.io": "0.9.13",
-    "mongoose": "*",
-    "redis": "*",
-    "express": "2.5.11",
+  "name": "gnd.io",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
     "jade": "0.18.0",
     "less": ">=1.2.0",
     "request": "2.9.153",
     "uglify-js": "1.2.6",
-    "node-markdown":"0.1.1",
-    "gnd":"*",
-    "cabinet":"*"
- }
+    "node-markdown": "0.1.1",
+    "express": "^3.5.0",
+    "socket.io": "^0.9.16",
+    "gnd": "^0.4.6",
+    "cabinet": "^0.3.2",
+    "redis": "^0.10.1",
+    "lodash": "^2.4.1",
+    "mongoose": "^3.8.8"
+  }
 }

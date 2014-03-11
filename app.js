@@ -1,22 +1,21 @@
 "use strict";
 
-var _ = require('underscore');
-var Gnd = require('gnd');
-var cabinet = require('cabinet');
-
-var express = require('express'),
+var   _ = require('lodash'),
+  cabinet = require('cabinet'),
+  express = require('express'),
+    app = express(),
+    http = require('http'),
+    server = http.createServer(app),
     fs = require('fs'),
     md = require("node-markdown").Markdown,
-    app = express.createServer(),
-    sio = require('socket.io').listen(app),
+    sio = require('socket.io').listen(server),
     port = process.env['GNDIO_PORT'] || 8000,
     mongoHost = process.env['MONGO_HOST'] || 'localhost',
     mongoose = require('mongoose'),
     redis = require('redis'),
     Schema = mongoose.Schema,
-    ObjectId = Schema.ObjectId;
-
-//app.use(express.static(__dirname + '/public'));
+    ObjectId = Schema.ObjectId,
+    Gnd = require('gnd');
 
 console.log('Using: '+Gnd.lib);
 
@@ -28,7 +27,6 @@ app.use(cabinet(__dirname + '/public', {
   },
 }));
 
-
 app.use(cabinet(Gnd.docs, {
   prefix: '/api'
 }))
@@ -39,7 +37,7 @@ app.set('views', __dirname + '/views');
 app.get('/', function(req, res){
   fs.readFile(Gnd.readme, {encoding: 'utf8'}, function(err, text){
     if(!err){
-      res.render('index.jade', {content:md(text.toString())});
+      res.render('index.jade', {content: md(text.toString())});
     }else{
       console.log(err);
       res.send('Error generating page, please try later on...');
@@ -94,7 +92,8 @@ var models = {
 // Setup mongodb
 mongoose.connect('mongodb://'+mongoHost+'/gndio');
 
-var mongooseStorage = new Gnd.Storage.MongooseStorage(models, mongoose);
+
+var mongooseStorage = new Gnd.Storage.MongooseStorage(mongoose, models);
 var pubClient = redis.createClient(6379, "127.0.0.1"),
     subClient = redis.createClient(6379, "127.0.0.1");
 
@@ -102,9 +101,8 @@ var syncHub = new Gnd.Sync.Hub(pubClient, subClient, sio.sockets);
 var gndServer = new Gnd.Server(mongooseStorage, new Gnd.SessionManager(), syncHub);
 var socketServer = new Gnd.SocketBackend(sio.sockets, gndServer);
 
-app.listen(port);
-console.log("Started test server at port: %d in %s mode", app.address().port, app.settings.env);
+app.set('port', port);
 
-
-
-
+server.listen(app.get('port'), function(){
+  console.info('Express server listening on port ' + app.get('port'));
+});
