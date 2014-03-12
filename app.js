@@ -1,21 +1,21 @@
 "use strict";
 
-var   _ = require('lodash'),
+var   
+  config = require('./config'),
+  _ = require('lodash'),
   cabinet = require('cabinet'),
   express = require('express'),
-    app = express(),
-    http = require('http'),
-    server = http.createServer(app),
-    fs = require('fs'),
-    md = require("node-markdown").Markdown,
-    sio = require('socket.io').listen(server),
-    port = process.env['GNDIO_PORT'] || 8000,
-    mongoHost = process.env['MONGO_HOST'] || 'localhost',
-    mongoose = require('mongoose'),
-    redis = require('redis'),
-    Schema = mongoose.Schema,
-    ObjectId = Schema.ObjectId,
-    Gnd = require('gnd');
+  app = express(),
+  http = require('http'),
+  server = http.createServer(app),
+  fs = require('fs'),
+  md = require("node-markdown").Markdown,
+  sio = require('socket.io').listen(server),
+  mongoose = require('mongoose'),
+  redis = require('redis'),
+  Schema = mongoose.Schema,
+  ObjectId = Schema.ObjectId,
+  Gnd = require('gnd');
 
 console.log('Using: '+Gnd.lib);
 
@@ -29,7 +29,7 @@ app.use(cabinet(__dirname + '/public', {
 
 app.use(cabinet(Gnd.docs, {
   prefix: '/api'
-}))
+}));
 
 
 app.set('views', __dirname + '/views');
@@ -90,18 +90,17 @@ var models = {
 };
 
 // Setup mongodb
-mongoose.connect('mongodb://'+mongoHost+'/gndio');
-
+mongoose.connect(config.mongo.href);
 
 var mongooseStorage = new Gnd.Storage.MongooseStorage(mongoose, models);
-var pubClient = redis.createClient(6379, "127.0.0.1"),
-    subClient = redis.createClient(6379, "127.0.0.1");
+var pubClient = redis.createClient(config.redis.port, config.redis.hostname),
+    subClient = redis.createClient(config.redis.port, config.redis.hostname);
 
 var syncHub = new Gnd.Sync.Hub(pubClient, subClient, sio.sockets);
 var gndServer = new Gnd.Server(mongooseStorage, new Gnd.SessionManager(), syncHub);
 var socketServer = new Gnd.SocketBackend(sio.sockets, gndServer);
 
-app.set('port', port);
+app.set('port', config.port);
 
 server.listen(app.get('port'), function(){
   console.info('Express server listening on port ' + app.get('port'));
